@@ -19,6 +19,7 @@ _logger = logging.getLogger(__name__)
 _ref_company_registry = {
     'jp': '7000012050002',
     'dk': '58403288',
+    'fi': '8763054-9',
 }
 
 
@@ -323,7 +324,7 @@ class ResPartner(models.Model):
     partner_company_registry_placeholder = fields.Char(compute='_compute_partner_company_registry_placeholder')
     duplicate_bank_partner_ids = fields.Many2many(related="bank_ids.duplicate_bank_partner_ids")
 
-    @api.depends('company_id')
+    @api.depends('company_id', 'country_code')
     @api.depends_context('allowed_company_ids')
     def _compute_fiscal_country_codes(self):
         for record in self:
@@ -526,20 +527,25 @@ class ResPartner(models.Model):
     currency_id = fields.Many2one('res.currency', compute='_get_company_currency', readonly=True,
         string="Currency") # currency of amount currency
     property_account_payable_id = fields.Many2one('account.account', company_dependent=True,
+        check_company=True,
         string="Account Payable",
         domain="[('account_type', '=', 'liability_payable')]",
         ondelete='restrict')
     property_account_receivable_id = fields.Many2one('account.account', company_dependent=True,
+        check_company=True,
         string="Account Receivable",
         domain="[('account_type', '=', 'asset_receivable')]",
         ondelete='restrict')
     property_account_position_id = fields.Many2one('account.fiscal.position', company_dependent=True,
+        check_company=True,
         string="Fiscal Position",
         help="The fiscal position determines the taxes/accounts used for this contact.")
     property_payment_term_id = fields.Many2one('account.payment.term', company_dependent=True,
+        check_company=True,
         string='Customer Payment Terms',
         ondelete='restrict')
     property_supplier_payment_term_id = fields.Many2one('account.payment.term', company_dependent=True,
+        check_company=True,
         string='Vendor Payment Terms',
     )
     ref_company_ids = fields.One2many('res.company', 'partner_id',
@@ -595,12 +601,14 @@ class ResPartner(models.Model):
 
     property_outbound_payment_method_line_id = fields.Many2one(
         comodel_name='account.payment.method.line',
+        check_company=True,
         company_dependent=True,
         domain=lambda self: [('payment_type', '=', 'outbound'), ('company_id', 'parent_of', self.env.company.id)],
     )
 
     property_inbound_payment_method_line_id = fields.Many2one(
         comodel_name='account.payment.method.line',
+        check_company=True,
         company_dependent=True,
         domain=lambda self: [('payment_type', '=', 'inbound'), ('company_id', 'parent_of', self.env.company.id)],
     )
@@ -1042,3 +1050,20 @@ class ResPartner(models.Model):
 
     def action_open_business_doc(self):
         return self._get_records_action()
+
+    @api.model
+    def _clear_removed_edi_formats(self, *formats):
+        """Helper to clear outdated EDI formats.
+
+        Usually called as an uninstall hook of modules that add these formats.
+        It avoids the form view to become unusable after module uninstallation.
+        """
+        self.env.cr.execute(
+            """
+            UPDATE res_partner
+            SET invoice_edi_format_store = invoice_edi_format_store - res_company.id::char
+            FROM res_company
+            WHERE res_partner.invoice_edi_format_store ->> res_company.id::char IN %s
+            """,
+            (formats,),
+        )

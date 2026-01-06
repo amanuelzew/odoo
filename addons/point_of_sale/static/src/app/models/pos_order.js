@@ -15,10 +15,6 @@ export class PosOrder extends PosOrderAccounting {
 
         if (!this.session_id?.id && (!this.finalized || !this.isSynced)) {
             this.session_id = this.session;
-
-            if (this.state === "draft" && this.lines.length == 0 && this.payment_ids.length == 0) {
-                this._isResidual = true;
-            }
         }
 
         // Data present in python model
@@ -187,7 +183,7 @@ export class PosOrder extends PosOrderAccounting {
             preset.fiscal_position_id || this.config.default_fiscal_position_id;
         this.preset_id = preset;
         if (preset.is_return) {
-            this.lines.forEach((l) => l.setQuantity(-Math.abs(l.getQuantity())));
+            this.lines.forEach((l) => l.setQuantity(-Math.abs(l.getQuantity()), true));
         }
     }
 
@@ -712,6 +708,12 @@ export class PosOrder extends PosOrderAccounting {
             return seqA - seqB;
         }
         return pos_categ_id_A - pos_categ_id_B;
+    }
+
+    getDiscountLine() {
+        return this.lines?.find(
+            (line) => line.product_id.id === this.config.discount_product_id?.id
+        );
     }
 
     getName() {

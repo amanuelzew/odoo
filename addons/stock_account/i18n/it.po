@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-07 18:35+0000\n"
-"PO-Revision-Date: 2025-11-10 15:45+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-12-29 11:15+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "stock_account/it/>\n"
@@ -22,9 +22,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0)"
-" ? 1 : 2);\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
+"0) ? 1 : 2);\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: stock_account
 #. odoo-python
@@ -41,8 +41,8 @@ msgstr "prezzo %(lot)s aggiornato da %(old_price)s a %(new_price)s da %(user)s"
 #. module: stock_account
 #. odoo-python
 #: code:addons/stock_account/models/stock_move.py:0
-msgid "%(quantity)s %(uom)s at product's standard price %(price)s"
-msgstr "%(quantity)s%(uom)s al prezzo standard del prodotto %(price)s"
+msgid "%(quantity)s %(uom)s at product's cost"
+msgstr "%(quantity)s%(uom)s al costo del prodotto"
 
 #. module: stock_account
 #: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
@@ -93,6 +93,7 @@ msgstr "Informazioni contabili"
 #. module: stock_account
 #. odoo-javascript
 #: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.js:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
 msgid "Accrual"
 msgstr "Ratei"
 
@@ -417,8 +418,10 @@ msgid "Display Serial & Lot Number on Invoices"
 msgstr "Mostrare numero di serie/lotto nelle fatture"
 
 #. module: stock_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/stock_account/report/stock_valuation_report.py:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
 msgid "Ending Stock"
 msgstr "Stock finale"
 
@@ -514,8 +517,10 @@ msgstr ""
 "serie."
 
 #. module: stock_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/stock_account/report/stock_valuation_report.py:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
 msgid "Initial Balance"
 msgstr "Saldo iniziale"
 
@@ -540,6 +545,7 @@ msgstr "Ubicazioni di inventario"
 #. odoo-python
 #: code:addons/stock_account/report/stock_valuation_report.py:0
 #: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.js:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
 msgid "Inventory Loss"
 msgstr "Perdita di inventario"
 
@@ -588,6 +594,16 @@ msgid "Is valued outside the company"
 msgstr "È valutato al di fuori dell'azienda"
 
 #. module: stock_account
+#. odoo-python
+#: code:addons/stock_account/models/res_company.py:0
+msgid ""
+"It exists closing entries after the selected date. Cancel them before "
+"generate an entry prior to them"
+msgstr ""
+"Esistono registrazioni di chiusura dopo la data selezionata. Annullale prima "
+"di generare una registrazione precedente"
+
+#. module: stock_account
 #: model:ir.model,name:stock_account.model_account_move
 msgid "Journal Entry"
 msgstr "Registrazione contabile"
@@ -602,6 +618,11 @@ msgstr "Movimento contabile"
 #: code:addons/stock_account/models/res_company.py:0
 msgid "Journal Items"
 msgstr "Movimenti contabili"
+
+#. module: stock_account
+#: model:ir.model.fields,field_description:stock_account.field_stock_avco_report__justification
+msgid "Justification"
+msgstr "Giustificazione"
 
 #. module: stock_account
 #: model:ir.model.fields,field_description:stock_account.field_res_config_settings__module_stock_landed_costs
@@ -657,6 +678,17 @@ msgstr "Mensile"
 #: model:ir.model.fields,field_description:stock_account.field_product_value__move_id
 msgid "Move"
 msgstr "Movimento"
+
+#. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.product_value_form_view
+msgid "New Value"
+msgstr "Nuovo valore"
+
+#. module: stock_account
+#. odoo-python
+#: code:addons/stock_account/models/stock_move.py:0
+msgid "Only is set (= True) is supported in search for remaining_qty."
+msgstr "Solo è impostato (= True) è supportato nella ricerca di remaining_qty."
 
 #. module: stock_account
 #. odoo-python
@@ -803,6 +835,11 @@ msgid "Reference"
 msgstr "Riferimento"
 
 #. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.view_move_search
+msgid "Remaining"
+msgstr "Rimanenti"
+
+#. module: stock_account
 #: model:ir.model.fields,field_description:stock_account.field_stock_move__remaining_qty
 msgid "Remaining Quantity"
 msgstr "Quantità rimanente"
@@ -910,8 +947,10 @@ msgid "Stock Valuation Account"
 msgstr "Conto valutazione giacenze"
 
 #. module: stock_account
+#. odoo-javascript
 #. odoo-python
 #: code:addons/stock_account/report/stock_valuation_report.py:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
 #: model_terms:ir.ui.view,arch_db:stock_account.view_category_property_form
 msgid "Stock Variation"
 msgstr "Variazione magazzino"
@@ -1146,8 +1185,19 @@ msgstr ""
 #. module: stock_account
 #. odoo-python
 #: code:addons/stock_account/models/product.py:0
+msgid ""
+"You can only get the standard price at a given date for products with "
+"'Standard Price' as cost method."
+msgstr ""
+"È possibile ottenere il prezzo standard in una data determinata solo per i "
+"prodotti con \"Prezzo standard\" come metodo di determinazione del costo."
+
+#. module: stock_account
+#. odoo-python
+#: code:addons/stock_account/models/product.py:0
 msgid "You can only use the '=' operator to search on valuation field."
-msgstr "Puoi utilizzare l'operatore '=' solo per cercare nel campo valutazione."
+msgstr ""
+"Puoi utilizzare l'operatore '=' solo per cercare nel campo valutazione."
 
 #. module: stock_account
 #. odoo-python
@@ -1168,6 +1218,9 @@ msgstr "stock_move_id"
 #: model_terms:ir.ui.view,arch_db:stock_account.stock_account_report_invoice_document
 msgid "units"
 msgstr "unità"
+
+#~ msgid "%(quantity)s %(uom)s at product's standard price %(price)s"
+#~ msgstr "%(quantity)s%(uom)s al prezzo standard del prodotto %(price)s"
 
 #~ msgid "AVCO Justification"
 #~ msgstr "Giustificazione costo medio"

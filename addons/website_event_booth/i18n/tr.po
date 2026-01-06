@@ -4,13 +4,14 @@
 #
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # DeepL <noreply-mt-deepl@weblate.org>, 2025.
+# Odoo Turkish Import <dyki+tr@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:39+0000\n"
-"PO-Revision-Date: 2025-11-12 15:06+0000\n"
-"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
+"PO-Revision-Date: 2025-11-21 14:47+0000\n"
+"Last-Translator: Odoo Turkish Import <dyki+tr@odoo.com>\n"
 "Language-Team: Turkish <https://translate.odoo.com/projects/odoo-19/"
 "website_event_booth/tr/>\n"
 "Language: tr\n"
@@ -27,8 +28,8 @@ msgid ""
 "label=\"Error\" title=\"Error\"/>\n"
 "                    <span class=\"o_wbooth_registration_error_message\"/>"
 msgstr ""
-"<i class=\"fa fa-exclamation-triangle me-2\" role=\"img\" aria-label="
-"\"Error\" title=\"Error\"/>\n"
+"<i class=\"fa fa-exclamation-triangle me-2\" role=\"img\" aria-"
+"label=\"Error\" title=\"Error\"/>\n"
 "                    <span class=\"o_wbooth_registration_error_message\"/>"
 
 #. module: website_event_booth
@@ -44,13 +45,11 @@ msgstr ""
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_registration
-#, fuzzy
 msgid "<i class=\"fa fa-map-o me-1\"/>View Plan"
 msgstr "<i class=\"fa fa-map-o me-1\"/>Planı Görüntüle"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid "<span class=\"fa fa-gear me-1\"/> Configure Booths"
 msgstr "<span class=\"fa fa-gear me-1\"/> Kabinleri Yapılandırma"
 
@@ -61,7 +60,6 @@ msgstr "<span class=\"text-nowrap\">Tükendi</span>"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_registration
-#, fuzzy
 msgid "<span>Book my Booth<small>(s)</small></span>"
 msgstr "<span>Standımı ayırtın<small>(s)</small></span>"
 
@@ -72,13 +70,12 @@ msgstr "<span>Standlarımı ayırtın</span>"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_order_progress
-#, fuzzy
 msgid ""
 "<span>Booth Selection</span><span class=\"fa fa-angle-right d-inline-block "
 "align-middle mx-2 mx-lg-3 opacity-75\"/>"
 msgstr ""
-"<span>Kabin Seçimi</span><span class="
-"\"fa fa-angle-right d-inline-block align-middle mx-2 mx-lg-3 opacity-75\"/>"
+"<span>Kabin Seçimi</span><span class=\"fa fa-angle-right d-inline-block "
+"align-middle mx-2 mx-lg-3 opacity-75\"/>"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_order_progress
@@ -138,20 +135,17 @@ msgstr "Web Sitesindeki Standlar"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid ""
 "Check our <a class=\"o_translate_inline\" href=\"/event\" title=\"List of "
 "Future Events\" aria-label=\"Link to list of future events\">list of future "
 "events</a>."
 msgstr ""
-"Gelecek etkinliklerin yer aldığı <a class=\"o_translate_inline\" href="
-"\"/event\" title=\"List of Future Events\" aria-label="
-"\"Link to list of future events\">listemizi</a> adresinden "
-"inceleyebilirsiniz."
+"Gelecek etkinliklerin yer aldığı <a class=\"o_translate_inline\" href=\"/"
+"event\" title=\"List of Future Events\" aria-label=\"Link to list of future "
+"events\">listemizi</a> adresinden inceleyebilirsiniz."
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_registration
-#, fuzzy
 msgid "Choose your type of booth"
 msgstr "Stand tipinizi seçin"
 
@@ -166,8 +160,8 @@ msgid ""
 "Contact Details<span class=\"fa fa-angle-right d-inline-block align-middle "
 "mx-2 mx-lg-3 opacity-75\"/>"
 msgstr ""
-"İletişim Detayları<span class="
-"\"fa fa-angle-right d-inline-block align-middle mx-2 mx-lg-3 opacity-75\"/>"
+"İletişim Detayları<span class=\"fa fa-angle-right d-inline-block align-"
+"middle mx-2 mx-lg-3 opacity-75\"/>"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_registration
@@ -198,7 +192,6 @@ msgstr "Etkinlik Standları Menüleri"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid "Event Finished"
 msgstr "Etkinlik Tamamlandı"
 
@@ -233,13 +226,11 @@ msgstr "ID"
 #. module: website_event_booth
 #. odoo-javascript
 #: code:addons/website_event_booth/static/src/interactions/booth_registration.js:0
-#, fuzzy
 msgid "It looks like your email is linked to an existing account."
 msgstr "Görünüşe göre e-postanız mevcut bir hesaba bağlı."
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid "It's no longer possible to book a booth."
 msgstr "Artık stant rezervasyonu yapmak mümkün değil."
 
@@ -260,7 +251,6 @@ msgstr "Telefon"
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_registration_details
-#, fuzzy
 msgid "Please Sign In."
 msgstr "Lütfen Oturum Açın."
 
@@ -272,7 +262,6 @@ msgstr "Lütfen formu doğru doldurunuz."
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid "Registration Not Open."
 msgstr "Kayıtlar Açık Değil."
 
@@ -289,7 +278,6 @@ msgstr "Stand kategorisi mevcut değil."
 
 #. module: website_event_booth
 #: model_terms:ir.ui.view,arch_db:website_event_booth.event_booth_layout
-#, fuzzy
 msgid "This event is not open to exhibitors registration at this time."
 msgstr "Bu etkinlik şu anda katılımcı kayıtlarına açık değildir."
 

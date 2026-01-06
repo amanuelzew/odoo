@@ -44,7 +44,7 @@ $o-discuss-talkingColor: lighten($success, 10%);
     }
 
     & .o-innerBadge {
-        min-width: 2.7ch; // same as .badge, without using .badge to keep semantics of a single .badge
+        min-width: $o-badge-min-width; // same as .badge, without using .badge to keep semantics of a single .badge
     }
 }
 
@@ -290,6 +290,10 @@ $o-mail-utilities: map-merge(
     font-size: 0.5rem;
 }
 
+.o-xxxs {
+    font-size: 0.35rem;
+}
+
 .o-yellow {
     color: $yellow;
 }
@@ -350,6 +354,7 @@ $o-mail-utilities: map-merge(
 }
 
 a.o_mail_redirect, a.o_channel_redirect, a.o-discuss-mention, a.o_message_redirect_transformed {
+    user-select: none;
     border-radius: $btn-border-radius-sm;
     padding: 0rem 0.1rem;
     margin: 0rem 0.0875rem;

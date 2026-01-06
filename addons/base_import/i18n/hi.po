@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
 "PO-Revision-Date: 2025-11-12 13:07+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Hindi <https://translate.odoo.com/projects/odoo-19/"
@@ -49,8 +49,7 @@ msgstr "%s रिकॉर्ड सफलतापूर्वक इंपो�
 msgid ""
 "A single column was found in the file, this often means the file separator "
 "is incorrect."
-msgstr ""
-"फ़ाइल में सिर्फ़ एक कॉलम मिला, इसका मतलब यह हो सकता है कि फ़ाइल सेपरेटर गलत है।"
+msgstr "फ़ाइल में सिर्फ़ एक कॉलम मिला, इसका मतलब यह हो सकता है कि फ़ाइल सेपरेटर गलत है।"
 
 #. module: base_import
 #. odoo-javascript
@@ -88,8 +87,8 @@ msgid ""
 "import it at once."
 msgstr ""
 "इंपोर्ट करते समय कोई समस्या हुई (शायद कनेक्शन चला गया हो, डेटा या मेमोरी की सीमा पार "
-"हो गई हो). यदि समस्या अस्थाई है, तो कृपया फिर से कोशिश करें. अगर समस्या फिर भी आती है"
-", तो फ़ाइल को एक बार में इंपोर्ट करने के बजाय उसे बांटकर इंपोर्ट करने की कोशिश करें।"
+"हो गई हो). यदि समस्या अस्थाई है, तो कृपया फिर से कोशिश करें. अगर समस्या फिर भी आती "
+"है, तो फ़ाइल को एक बार में इंपोर्ट करने के बजाय उसे बांटकर इंपोर्ट करने की कोशिश करें।"
 
 #. module: base_import
 #: model:ir.model,name:base_import.model_base
@@ -179,8 +178,8 @@ msgstr "टिप्पणियाँ"
 msgid ""
 "Could not retrieve URL: %(url)s [%(field_name)s: L%(line_number)d]: %(error)s"
 msgstr ""
-"यूआरएल वापस नहीं लाया जा सका: %(url)s [%(field_name)s: L%(line_number)d]: "
-"%(error)s"
+"यूआरएल वापस नहीं लाया जा सका: %(url)s [%(field_name)s: L%(line_number)d]: %"
+"(error)s"
 
 #. module: base_import
 #. odoo-javascript
@@ -234,8 +233,7 @@ msgstr "डेसीमल सेपरेटर:"
 #. odoo-javascript
 #: code:addons/base_import/static/src/import_model.js:0
 msgid "Defines how many megabytes can be imported in each batch import"
-msgstr ""
-"यह तय करता है कि हर बैच इंपोर्ट में कितने मेगाबाइट इंपोर्ट किए जा सकते हैं"
+msgstr "यह तय करता है कि हर बैच इंपोर्ट में कितने मेगाबाइट इंपोर्ट किए जा सकते हैं"
 
 #. module: base_import
 #. odoo-javascript
@@ -292,8 +290,7 @@ msgstr "पंक्ति %(row)s में गड़बड़ी: \"%(error)s\
 #: code:addons/base_import/models/base_import.py:0
 msgid ""
 "Error while importing records: Text Delimiter should be a single character."
-msgstr ""
-"रिकॉर्ड इंपोर्ट करते समय गड़बड़ी: टेक्स्ट डिलिमिटर एक सिंगल कैरेक्टर होना चाहिए।"
+msgstr "रिकॉर्ड इंपोर्ट करते समय गड़बड़ी: टेक्स्ट डिलिमिटर एक सिंगल कैरेक्टर होना चाहिए।"
 
 #. module: base_import
 #. odoo-python
@@ -304,8 +301,8 @@ msgid ""
 "(first_row_entries)d. You may need to change the separator character."
 msgstr ""
 "रिकॉर्ड इंपोर्ट करते समय गड़बड़ी: सभी पंक्तियों का आकार एक जैसा होना चाहिए, लेकिन टाइटल "
-"वाली पंक्ति में %(title_row_entries)d एंट्री हैं, जबकि पहली पंक्ति में "
-"%(first_row_entries)d एंट्री हैं. हो सकता है कि आपको सेपरेटर कैरेक्टर बदलना पड़े।"
+"वाली पंक्ति में %(title_row_entries)d एंट्री हैं, जबकि पहली पंक्ति में %"
+"(first_row_entries)d एंट्री हैं. हो सकता है कि आपको सेपरेटर कैरेक्टर बदलना पड़े।"
 
 #. module: base_import
 #. odoo-javascript
@@ -406,8 +403,8 @@ msgid ""
 "Found invalid image data, images should be imported as either URLs or base64-"
 "encoded data."
 msgstr ""
-"अमान्य इमेज डेटा मिला, इमेज को या तो यूआरएल (URL) या बेस 64-एन्कोडेड (base64-encoded)"
-" डेटा के तौर पर इंपोर्ट किया जाना चाहिए।"
+"अमान्य इमेज डेटा मिला, इमेज को या तो यूआरएल (URL) या बेस 64-एन्कोडेड (base64-"
+"encoded) डेटा के तौर पर इंपोर्ट किया जाना चाहिए।"
 
 #. module: base_import
 #. odoo-javascript
@@ -522,8 +519,8 @@ msgid ""
 "Invalid cell format at row %(row)s, column %(col)s: %(cell_value)s, with "
 "format: %(cell_format)s, as (%(format_type)s) formats are not supported."
 msgstr ""
-"पंक्ति %(row)s, कॉलम %(col)s में सेल फ़ॉर्मैट गलत है: %(cell_value)s, फ़ॉर्मैट के साथ: "
-"%(cell_format)s, क्योंकि (%(format_type)s) फ़ॉर्मैट समर्थित नहीं हैं।"
+"पंक्ति %(row)s, कॉलम %(col)s में सेल फ़ॉर्मैट गलत है: %(cell_value)s, फ़ॉर्मैट के साथ: %"
+"(cell_format)s, क्योंकि (%(format_type)s) फ़ॉर्मैट समर्थित नहीं हैं।"
 
 #. module: base_import
 #. odoo-python
@@ -624,8 +621,7 @@ msgstr "कृपया कोई सिंगल फ़ाइल अपलो�
 #. odoo-javascript
 #: code:addons/base_import/static/src/import_action/import_action.js:0
 msgid "Please upload an Excel (.xls or .xlsx) or .csv file to import."
-msgstr ""
-"कृपया इंपोर्ट करने के लिए एक एक्सेल (.xls या .xlsx) या .csv फ़ाइल अपलोड करें।"
+msgstr "कृपया इंपोर्ट करने के लिए एक एक्सेल (.xls या .xlsx) या .csv फ़ाइल अपलोड करें।"
 
 #. module: base_import
 #. odoo-javascript
@@ -801,6 +797,22 @@ msgid "The file will be imported by batches"
 msgstr "फ़ाइल को बैच में इंपोर्ट किया जाएगा"
 
 #. module: base_import
+#. odoo-python
+#: code:addons/base_import/models/base_import.py:0
+msgid ""
+"There was an issue decoding the file using encoding “%s”.\n"
+"This encoding was automatically detected."
+msgstr ""
+
+#. module: base_import
+#. odoo-python
+#: code:addons/base_import/models/base_import.py:0
+msgid ""
+"There was an issue decoding the file using encoding “%s”.\n"
+"This encoding was manually selected."
+msgstr ""
+
+#. module: base_import
 #. odoo-javascript
 #: code:addons/base_import/static/src/import_model.js:0
 msgid "This column will be concatenated in field"
@@ -886,10 +898,10 @@ msgid ""
 "in addition to the suggestions provided. Leave empty to let Odoo guess the "
 "format (recommended)"
 msgstr ""
-"साल दिखाने के लिए YYYY का इस्तेमाल करें, महीने के लिए MM और दिन के लिए DD का इस्तेमाल करें"
-". विभाजक (सेपरेटर), जैसे डॉट, फ़ॉरवर्ड स्लैश या डैश को शामिल करें. दिए गए सुझावों के अलावा"
-", आप अपनी पसंद का फ़ॉर्मैट भी इस्तेमाल कर सकते हैं. फ़ॉर्मैट खाली छोड़ने पर, Odoo अपने-आप "
-"इसका पता लगा लेगा (सुझाव दिया गया है)"
+"साल दिखाने के लिए YYYY का इस्तेमाल करें, महीने के लिए MM और दिन के लिए DD का इस्तेमाल "
+"करें. विभाजक (सेपरेटर), जैसे डॉट, फ़ॉरवर्ड स्लैश या डैश को शामिल करें. दिए गए सुझावों के "
+"अलावा, आप अपनी पसंद का फ़ॉर्मैट भी इस्तेमाल कर सकते हैं. फ़ॉर्मैट खाली छोड़ने पर, Odoo अपने-"
+"आप इसका पता लगा लेगा (सुझाव दिया गया है)"
 
 #. module: base_import
 #. odoo-javascript
@@ -929,8 +941,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/base_import/static/src/import_model.js:0
 msgid "You can test or reload your file before resuming the import."
-msgstr ""
-"इंपोर्ट जारी रखने से पहले, आप अपनी फ़ाइल की जांच या उसे फिर से लोड कर सकते हैं।"
+msgstr "इंपोर्ट जारी रखने से पहले, आप अपनी फ़ाइल की जांच या उसे फिर से लोड कर सकते हैं।"
 
 #. module: base_import
 #. odoo-python

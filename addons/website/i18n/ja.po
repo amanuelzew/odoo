@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:35+0000\n"
-"PO-Revision-Date: 2025-11-08 19:20+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-12-20 09:49+0000\n"
+"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/website/"
 "ja/>\n"
 "Language: ja\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -350,12 +350,6 @@ msgstr "$5.00"
 #: code:addons/website/models/ir_ui_view.py:0
 msgid "%(error)s (website: %(website_id)s)"
 msgstr "%(error)s (ウェブサイト: %(website_id)s)"
-
-#. module: website
-#. odoo-javascript
-#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
-msgid "%s List"
-msgstr "%s リスト"
 
 #. module: website
 #. odoo-javascript
@@ -3438,7 +3432,6 @@ msgstr "ビルディングブロックを適用します。"
 
 #. module: website
 #. odoo-javascript
-#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
 #: code:addons/website/static/src/builder/plugins/options/card_image_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/image_gallery_option.xml:0
 #: code:addons/website/static/src/client_actions/configurator/configurator.xml:0
@@ -3542,6 +3535,12 @@ msgstr "新規を追加"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
+msgid "Add New Option"
+msgstr "新しいオプションを追加"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/social_media_links.xml:0
 msgid "Add New Social Network"
 msgstr "新規ソーシャルネットワークを追加"
@@ -3605,7 +3604,7 @@ msgstr "ここに説明を追加します"
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/website_switcher_systray_item.js:0
 msgid "Add a domain to your website."
-msgstr ""
+msgstr "ウェブサイトにドメインを追加します。"
 
 #. module: website
 #. odoo-javascript
@@ -4167,9 +4166,21 @@ msgstr "適用"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/options/scroll_button_option.xml:0
+msgid "Apply a background color"
+msgstr ""
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/header/header_font_option.xml:0
 msgid "Apply a light contrast on dropdown buttons"
 msgstr "ドロップダウンボタンに薄いコントラストを適用"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/options/scroll_button_option.xml:0
+msgid "Apply an icon color"
+msgstr ""
 
 #. module: website
 #. odoo-javascript
@@ -4732,6 +4743,7 @@ msgstr "角の丸み(小)"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/options/card_image_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/chart_option.xml:0
 #: code:addons/website/static/src/builder/plugins/options/popup_option.xml:0
 #: code:addons/website/static/src/builder/plugins/theme/theme_headings_option.xml:0
@@ -5325,9 +5337,14 @@ msgstr "接続を確認してから再試行してください"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/form/form_option.xml:0
-#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
 msgid "Checkbox"
 msgstr "チェックボックス"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
+msgid "Checkbox List"
+msgstr "チェックボックスリスト"
 
 #. module: website
 #. odoo-javascript
@@ -6023,6 +6040,7 @@ msgstr "コントローラページ"
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/interactions/cookies/cookies_bar.js:0
 #: code:addons/website/static/src/xml/website.cookies_bar.xml:0
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy
 msgid "Cookie Policy"
@@ -6588,7 +6606,7 @@ msgstr "デフォルトソーシャルシェア画像"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/header/header_font_option.xml:0
 msgid "Default Text Size and Color"
-msgstr ""
+msgstr "デフォルト文字サイズ・色"
 
 #. module: website
 #. odoo-javascript
@@ -7176,6 +7194,8 @@ msgid ""
 "Display a customizable cookies bar on your website. Please ensure your site "
 "is GDPR-compliant (e.g. Google Fonts usage)."
 msgstr ""
+"ウェブサイトにカスタマイズ可能なクッキーバーを表示します。サイトがGDPRに準拠"
+"していることをご確認ください（Google Fontsの使用など）。"
 
 #. module: website
 #. odoo-python
@@ -7794,6 +7814,13 @@ msgstr ""
 
 #. module: website
 #. odoo-javascript
+#: code:addons/website/static/src/xml/html_editor.xml:0
+#, fuzzy
+msgid "Enter URL, /page, or #anchor"
+msgstr "URL、/page、または#アンカーを入力してください"
+
+#. module: website
+#. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/google_maps_option/google_maps_api_key_dialog.js:0
 msgid "Enter an API Key"
 msgstr "APIキーを入力"
@@ -8356,6 +8383,12 @@ msgstr "他社との差別化を図る機能"
 #: code:addons/website/static/src/builder/plugins/options/dynamic_snippet_option.xml:0
 msgid "Fetched Elements"
 msgstr "フェッチされた要素"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/form/utils.js:0
+msgid "Field"
+msgstr "フィールド"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_snippet_filter__field_names
@@ -11089,7 +11122,7 @@ msgstr "ラザニア・アル・フォルノ"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_search
 msgid "Last 7 Days"
-msgstr "過去7日"
+msgstr "直近７日"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_kanban
@@ -13057,12 +13090,6 @@ msgstr "SEO最適化"
 
 #. module: website
 #. odoo-javascript
-#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
-msgid "Option"
-msgstr "オプション"
-
-#. module: website
-#. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/form/utils.js:0
 msgid "Option 1"
 msgstr "オプション 1"
@@ -13078,6 +13105,12 @@ msgstr "オプション 2"
 #: code:addons/website/static/src/builder/plugins/form/utils.js:0
 msgid "Option 3"
 msgstr "オプション 3"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
+msgid "Option List"
+msgstr "オプションリスト"
 
 #. module: website
 #. odoo-javascript
@@ -14384,9 +14417,14 @@ msgstr "レーダー"
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/form/form_option.xml:0
-#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
 msgid "Radio"
 msgstr "ラジオボタン"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
+msgid "Radio Button List"
+msgstr "ラジオボタンリスト"
 
 #. module: website
 #. odoo-javascript
@@ -14674,6 +14712,12 @@ msgstr "リンクを削除"
 #: model_terms:ir.ui.view,arch_db:website.theme_view_kanban
 msgid "Remove theme"
 msgstr "テーマを削除"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/options/background_video_option.xml:0
+msgid "Remove video"
+msgstr "動画を削除"
 
 #. module: website
 #. odoo-python
@@ -15700,6 +15744,12 @@ msgstr "クッキーバーを表示"
 #: code:addons/website/static/src/builder/plugins/options/header/header_elements_option.xml:0
 msgid "Show/Hide Elements"
 msgstr "要素の表示/非表示"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/builder/plugins/theme/theme_advanced_option.xml:0
+msgid "Show/Hide the header on all pages"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -16741,6 +16791,8 @@ msgstr ""
 msgid ""
 "The domain path cannot contain relative path segments like '/./' or '/../'."
 msgstr ""
+"ドメインパスには、 '/./' や'/../'.のような相対パスセグメントを含めることはで"
+"きません。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_striped
@@ -16756,6 +16808,10 @@ msgid ""
 "Model: %(model)s\n"
 "View: %(view)s"
 msgstr ""
+"フィールド '%(field)s' はウェブサイトビューで参照されているため、削除できませ"
+"ん。\n"
+"モデル%(model)s\n"
+"ビュー：%(view)s"
 
 #. module: website
 #. odoo-javascript
@@ -17670,7 +17726,7 @@ msgstr "選択オプションを翻訳する"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/translate_announcement_scroll_plugin.js:0
 msgid "Translate Text"
-msgstr ""
+msgstr "テキストを翻訳"
 
 #. module: website
 #. odoo-javascript
@@ -17793,12 +17849,6 @@ msgstr ""
 "い場合。 (例: /shop -> /garden - 両URLはアクセス可能が/shopは自動的に/garden"
 "にリダイレクト)\n"
 "    "
-
-#. module: website
-#. odoo-javascript
-#: code:addons/website/static/src/xml/html_editor.xml:0
-msgid "Type your URL"
-msgstr "URLを入力して下さい"
 
 #. module: website
 #. odoo-javascript
@@ -18011,6 +18061,8 @@ msgstr "サイトにGoogleマップを使用 (お問合せページ、スニペ�
 #: code:addons/website/static/src/builder/plugins/font/add_font_dialog.xml:0
 msgid "Use Google’s servers for fonts. It may impact GDPR compliance"
 msgstr ""
+"フォントにGoogleのサーバーを使用します。GDPRコンプライアンスに影響する可能性"
+"があります"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_theme_website_menu__use_main_menu_as_parent
@@ -21130,6 +21182,15 @@ msgstr "✽  ピザ"
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "✽  What We Offer"
 msgstr "✽  当社が提供するもの"
+
+#~ msgid "%s List"
+#~ msgstr "%s リスト"
+
+#~ msgid "Option"
+#~ msgstr "オプション"
+
+#~ msgid "Type your URL"
+#~ msgstr "URLを入力して下さい"
 
 #~ msgid "Display a customizable cookies bar on your website"
 #~ msgstr "ウェブサイトにカスタマイズ可能なクッキーバーを表示します"

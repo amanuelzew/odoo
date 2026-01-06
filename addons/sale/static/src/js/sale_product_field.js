@@ -116,7 +116,7 @@ export class SaleOrderLineProductField extends ProductLabelSectionAndNoteField {
         return this.props.record.data.is_configurable_product;
     }
     get isCombo() {
-        return this.props.record.data.product_type === 'combo';
+        return this.props.record.data.product_template_id && this.props.record.data.product_type === 'combo';
     }
     get isDownpayment() {
         return this.props.record.data.is_downpayment;
@@ -270,7 +270,8 @@ export class SaleOrderLineProductField extends ProductLabelSectionAndNoteField {
                         const line = await saleOrderRecord.data.order_line.addNewRecord({
                             position: 'bottom', mode: 'readonly'
                         });
-                        await applyProduct(line, product);
+                        const productData = this._prepareNewLineData(line, product);
+                        await applyProduct(line, productData);
                     }),
                 ]);
                 this._onProductUpdate();
@@ -380,6 +381,13 @@ export class SaleOrderLineProductField extends ProductLabelSectionAndNoteField {
      */
     _getAdditionalDialogProps() {
         return {};
+    }
+
+    /**
+     * Hook to append extra data in newly created optional product lines.
+     */
+    _prepareNewLineData(_line, product) {
+        return product;
     }
 
     /**

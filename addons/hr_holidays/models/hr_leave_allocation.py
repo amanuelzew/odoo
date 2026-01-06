@@ -9,7 +9,8 @@ from odoo import api, fields, models, _
 from odoo.tools import format_date
 
 from odoo.addons.hr_holidays.models.hr_leave import get_employee_from_context
-from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Domain
 from odoo.tools.float_utils import float_round
 from odoo.tools.date_utils import get_timedelta
 
@@ -30,9 +31,13 @@ class HrLeaveAllocation(models.Model):
         return self.env['hr.leave.type'].search(domain, limit=1)
 
     def _domain_holiday_status_id(self):
+        domain = [
+            ('company_id', 'in', self.env.companies.ids + [False]),
+            ('requires_allocation', '=', True),
+        ]
         if self.env.user.has_group('hr_holidays.group_hr_holidays_user'):
-            return [('requires_allocation', '=', True)]
-        return [('employee_requests', '=', True)]
+            return domain
+        return Domain.AND([domain, [('employee_requests', '=', True)]])
 
     def _domain_employee_id(self):
         domain = [('company_id', 'in', self.env.companies.ids)]
@@ -530,12 +535,14 @@ class HrLeaveAllocation(models.Model):
                         allocation.number_of_days = max(0, allocation.number_of_days - expiring_days)
                         allocation.expiring_carryover_days = 0
 
+                is_accrual_date = allocation.nextcall == period_end or allocation.nextcall == current_level_last_date
+                if not allocation.already_accrued and is_accrual_date and allocation.accrual_plan_id.accrued_gain_time == 'start':
+                    allocation._add_days_to_allocation(current_level, current_level_maximum_leave, leaves_taken, period_start, period_end)
+
                 # if it's the carry-over date, adjust days using current level's carry-over policy
                 if allocation.nextcall == carryover_date:
                     allocation.last_executed_carryover_date = carryover_date
                     if current_level.action_with_unused_accruals == 'lost' or current_level.carryover_options == 'limited':
-                        if current_level != first_level or (nextcall == expiration_date and allocation.number_of_days - leaves_taken == 0):
-                            allocation._add_days_to_allocation(current_level, current_level_maximum_leave, leaves_taken, period_start, period_end)
                         allocated_days_left = allocation.number_of_days - leaves_taken
                         allocation_max_days = 0 # default if unused_accrual are lost
                         if current_level.carryover_options == 'limited':
@@ -547,9 +554,7 @@ class HrLeaveAllocation(models.Model):
                         allocation.number_of_days = min(allocation.number_of_days, allocation_max_days) + leaves_taken
                     allocation.expiring_carryover_days = allocation.number_of_days
 
-                # Only accrue on the end of the accrual period or on level transition date
-                is_accrual_date = allocation.nextcall == period_end or allocation.nextcall == current_level_last_date
-                if not allocation.already_accrued and is_accrual_date:
+                if not allocation.already_accrued and is_accrual_date and allocation.accrual_plan_id.accrued_gain_time == 'end':
                     allocation._add_days_to_allocation(current_level, current_level_maximum_leave, leaves_taken, period_start, period_end)
 
                 if allocation.nextcall == carryover_date:
@@ -785,7 +790,7 @@ class HrLeaveAllocation(models.Model):
 
         self.add_follower(employee_id)
 
-        if 'number_of_days_display' not in values and 'number_of_hours_display' not in values:
+        if 'number_of_days_display' not in values and 'number_of_hours_display' not in values and 'state' not in values:
             res = super().write(values)
             if 'allocation_type' in values:
                 self._add_lastcalls()
@@ -874,13 +879,6 @@ class HrLeaveAllocation(models.Model):
         current_employee = self.env.user.employee_id
         if any(allocation.state not in ['confirm', 'validate', 'validate1'] for allocation in self):
             raise UserError(_('Allocation request must be confirmed, second approval or validated in order to refuse it.'))
-
-        days_per_allocation = self.employee_id._get_consumed_leaves(self.holiday_status_id)[0]
-
-        for allocation in self:
-            days_taken = days_per_allocation[allocation.employee_id][allocation.holiday_status_id][allocation]['virtual_leaves_taken']
-            if days_taken > 0:
-                raise UserError(_('You cannot refuse this allocation request since the employee has already taken leaves for it. Please refuse or delete those leaves first.'))
 
         self.write({'state': 'refuse', 'approver_id': current_employee.id})
         self.activity_update()

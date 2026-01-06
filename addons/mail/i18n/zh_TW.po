@@ -9,13 +9,14 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Tony Ng (ngto)" <ngto@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:35+0000\n"
-"PO-Revision-Date: 2025-11-08 19:10+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-01-02 18:35+0000\n"
+"PO-Revision-Date: 2025-11-24 12:08+0000\n"
+"Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/mail/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -2116,8 +2117,8 @@ msgstr "瀏覽器"
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/device_select.xml:0
-msgid "Browser default"
-msgstr "瀏覽器預設值"
+msgid "Browser Default"
+msgstr ""
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_push_device__endpoint
@@ -3021,7 +3022,7 @@ msgstr "創建 %s"
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__ir_actions_server__state__next_activity
 msgid "Create Activity"
-msgstr "創建活動"
+msgstr "建立活動"
 
 #. module: mail
 #. odoo-javascript
@@ -3652,8 +3653,8 @@ msgstr "終止連線"
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/rtc_service.js:0
-msgid "Disconnected from the RTC call by the server"
-msgstr "已被伺服器終止與 RTC 召用的連線"
+msgid "Disconnected from the call by the server"
+msgstr "通話連線被伺服器中斷"
 
 #. module: mail
 #: model:ir.actions.client,name:mail.action_discuss
@@ -8627,6 +8628,12 @@ msgid "Permanently delete this thread?"
 msgstr ""
 
 #. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/device_select.xml:0
+msgid "Permission Needed"
+msgstr ""
+
+#. module: mail
 #: model:ir.model.fields,field_description:mail.field_res_partner__phone
 #: model:ir.model.fields,field_description:mail.field_res_users__phone
 msgid "Phone"
@@ -10027,6 +10034,12 @@ msgstr "選擇語言"
 #: code:addons/mail/static/src/views/web/fields/assign_user_command_hook.js:0
 msgid "Select a user..."
 msgstr "選擇一名使用者⋯"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_activity_schedule.py:0
+msgid "Selected user '%(user)s' cannot upload documents on model '%(model)s'"
+msgstr ""
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_discuss_channel__self_member_id
@@ -12015,6 +12028,8 @@ msgstr "取消靜音對話"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/follower_model.js:0
+#: code:addons/mail/static/src/core/common/message_model.js:0
 #: code:addons/mail/static/src/core/web/recipients_input.js:0
 #: code:addons/mail/static/src/core/web/recipients_popover.js:0
 #: code:addons/mail/static/src/views/web/fields/many2many_tags_email/many2many_tags_email.js:0
@@ -13790,6 +13805,12 @@ msgstr "你的別名"
 #: code:addons/mail/models/discuss/discuss_channel_member.py:0
 msgid "“%(member_name)s” in “%(channel_name)s”"
 msgstr "\"%(channel_name)s\" 中的 \"%(member_name)s\""
+
+#~ msgid "Browser default"
+#~ msgstr "瀏覽器預設值"
+
+#~ msgid "Disconnected from the RTC call by the server"
+#~ msgstr "已被伺服器終止與 RTC 召用的連線"
 
 #~ msgid "Link copied!"
 #~ msgstr "連結已複製！"

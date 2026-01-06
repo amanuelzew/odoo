@@ -39,6 +39,7 @@ import { discussComponentRegistry } from "./discuss_component_registry";
 import { NotificationMessage } from "./notification_message";
 import { useLongPress } from "@mail/utils/common/hooks";
 import { ActionList } from "@mail/core/common/action_list";
+import { loadCssFromBundle } from "@mail/utils/common/misc";
 
 /**
  * @typedef {Object} Props
@@ -139,6 +140,7 @@ export class Message extends Component {
             if (this.shadowBody.el) {
                 this.shadowRoot = this.shadowBody.el.attachShadow({ mode: "open" });
                 const color = this.store.isOdooWhiteTheme ? "dark" : "white";
+                loadCssFromBundle(this.shadowRoot, "mail.assets_message_email");
                 const shadowStyle = document.createElement("style");
                 shadowStyle.textContent = `
                     * {
@@ -262,7 +264,7 @@ export class Message extends Component {
             "pt-1": !this.props.asCard && !this.props.squashed,
             "o-pt-0_5": !this.props.asCard && this.props.squashed,
             "o-selfAuthored": this.message.isSelfAuthored && !this.env.messageCard,
-            "o-selected": this.props.thread?.composer.replyToMessage?.eq(this.props.message),
+            "o-selected": this.props.message.composerAsReplyToMessage?.thread.eq(this.props.thread),
             "o-squashed": this.props.squashed,
             "mt-1":
                 !this.props.squashed &&
@@ -270,7 +272,6 @@ export class Message extends Component {
                 !this.env.messageCard &&
                 !this.props.asCard,
             "px-1": this.props.isInChatWindow,
-            "opacity-50": this.props.thread?.composer.replyToMessage?.notEq(this.props.message),
             "o-actionMenuMobileOpen": this.ui.isSmall && this.optionsDropdown.isOpen,
             "o-editing": this.isEditing,
         };

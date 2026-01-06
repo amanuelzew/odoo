@@ -26,6 +26,7 @@ export class BannerPlugin extends Plugin {
     // sanitize plugin is required to handle `contenteditable` attribute.
     static dependencies = ["baseContainer", "history", "dom", "emoji", "selection", "sanitize"];
     static shared = ["insertBanner"];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: [
             {
@@ -136,10 +137,6 @@ export class BannerPlugin extends Plugin {
         this.dependencies.selection.setCursorEnd(
             bannerElement.querySelector(`.o_editor_banner_content > ${baseContainer.tagName}`)
         );
-        // Remove the old element.
-        if (bannerElement.nextSibling?.nodeName === blockEl.nodeName) {
-            bannerElement.nextSibling.remove();
-        }
         this.dependencies.history.addStep();
     }
 

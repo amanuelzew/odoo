@@ -23,11 +23,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-07 18:36+0000\n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
 "PO-Revision-Date: 2025-11-08 21:55+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/sale/fa/>"
-"\n"
+"Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/sale/fa/"
+">\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -705,9 +705,8 @@ msgid ""
 "<span class=\"fa fa-lg fa-building-o p-2\" title=\"Values set here are "
 "company-specific.\" groups=\"base.group_multi_company\"/>"
 msgstr ""
-"<span class=\"fa fa-lg fa-building-o p-2\" title="
-"\"مقادیر تنظیم شده در اینجا مختص شرکت هستند.\" groups="
-"\"base.group_multi_company\"/>"
+"<span class=\"fa fa-lg fa-building-o p-2\" title=\"مقادیر تنظیم شده در اینجا "
+"مختص شرکت هستند.\" groups=\"base.group_multi_company\"/>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.crm_team_salesteams_view_form
@@ -1102,8 +1101,8 @@ msgid ""
 "sale order between the header pages and the quote table. "
 msgstr ""
 "به شما امکان می دهد سند را با مشتریان خود در یک فروش به اشتراک بگذارید.\n"
-"اگر نمی‌خواهید این سند را با مشتری فروش به اشتراک بگذارید، آن را خالی بگذارید."
-"\n"
+"اگر نمی‌خواهید این سند را با مشتری فروش به اشتراک بگذارید، آن را خالی "
+"بگذارید.\n"
 "در نقل قول: سند در هر زمان برای مشتریان ارسال می شود و در دسترس آنها خواهد "
 "بود.\n"
 "به عنوان مثال این گزینه می تواند برای به اشتراک گذاری فایل های توضیحات محصول "
@@ -1324,8 +1323,8 @@ msgid ""
 "products."
 msgstr ""
 "فروش خود را با انواع برنامه ها افزایش دهید: کوپن، تبلیغات، کارت هدیه، "
-"وفاداری. شرایط خاصی را می توان تنظیم کرد (محصولات، مشتریان، حداقل مقدار خرید،"
-" دوره). جوایز می توانند تخفیف (% یا مقدار) یا محصولات رایگان باشند."
+"وفاداری. شرایط خاصی را می توان تنظیم کرد (محصولات، مشتریان، حداقل مقدار "
+"خرید، دوره). جوایز می توانند تخفیف (% یا مقدار) یا محصولات رایگان باشند."
 
 #. module: sale
 #. odoo-javascript
@@ -1413,11 +1412,11 @@ msgstr ""
 "    • سیاست صورتحساب محصول به درستی پیکربندی شده است.\n"
 "\n"
 "اگر می‌خواهید بر اساس مقادیر سفارش‌داده شده فاکتور بگیرید:\n"
-"    • برای محصولات قابل مصرف یا قابل نگهداری، محصول را باز کنید، به برگه «"
-"اطلاعات عمومی» بروید و «خط‌مشی صورتحساب» را از «مقدارهای تحویل‌شده» به «مقادیر "
-"سفارش‌داده شده» تغییر دهید.\n"
-"    • برای خدمات (و سایر محصولات)، «سیاست صورتحساب» را به «قیمت "
-"پیش‌پرداخت/ثابت» تغییر دهید.\n"
+"    • برای محصولات قابل مصرف یا قابل نگهداری، محصول را باز کنید، به برگه "
+"«اطلاعات عمومی» بروید و «خط‌مشی صورتحساب» را از «مقدارهای تحویل‌شده» به "
+"«مقادیر سفارش‌داده شده» تغییر دهید.\n"
+"    • برای خدمات (و سایر محصولات)، «سیاست صورتحساب» را به «قیمت پیش‌پرداخت/"
+"ثابت» تغییر دهید.\n"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -4146,6 +4145,12 @@ msgid "Sale Information"
 msgstr "اطلاعات فروش"
 
 #. module: sale
+#: model:ir.model.fields,field_description:sale.field_account_move_line__sale_line_warn_msg
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__sale_line_warn_msg
+msgid "Sale Line Warn Msg"
+msgstr ""
+
+#. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__sale_order_ids
 #: model:ir.model.fields,field_description:sale.field_sale_order_discount__sale_order_id
 #: model:ir.model.fields.selection,name:sale.selection__account_analytic_applicability__business_domain__sale_order
@@ -4292,10 +4297,8 @@ msgid "Sales Order Line"
 msgstr "سطر سفارش‌فروش"
 
 #. module: sale
-#: model:ir.model.fields,field_description:sale.field_account_move_line__sale_line_warn_msg
 #: model:ir.model.fields,field_description:sale.field_product_product__sale_line_warn_msg
 #: model:ir.model.fields,field_description:sale.field_product_template__sale_line_warn_msg
-#: model:ir.model.fields,field_description:sale.field_sale_order_line__sale_line_warn_msg
 msgid "Sales Order Line Warning"
 msgstr ""
 
@@ -4969,8 +4972,8 @@ msgstr ""
 "محصولات زیر را نمی توان به %(company)s شرکت محدود کرد زیرا قبلاً در قیمت ها "
 "یا سفارشات فروش در شرکت دیگری استفاده شده است:\n"
 "%(used_products)s\n"
-"می‌توانید این محصولات را بایگانی کنید و به جای آن با محدودیت‌های شرکت خود، آن‌"
-"ها را دوباره بسازید، یا آنها را به عنوان محصول مشترک بگذارید."
+"می‌توانید این محصولات را بایگانی کنید و به جای آن با محدودیت‌های شرکت خود، "
+"آن‌ها را دوباره بسازید، یا آنها را به عنوان محصول مشترک بگذارید."
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_config_settings__automatic_invoice
@@ -4984,8 +4987,8 @@ msgid ""
 msgstr ""
 "فاکتور به طور خودکار تولید شده و زمانی که تراکنش توسط درگاه پرداخت تایید شود "
 "در پورتال مشتری در دسترس قرار می‌گیرد.\n"
-"فاکتور به عنوان پرداخت‌شده علاکت‌گذاری شده و پرداخت در دفترروزنامه پرداخت تعریف‌"
-"شده در پیکربندی درگاه پرداخت ثبت می‌شود.\n"
+"فاکتور به عنوان پرداخت‌شده علاکت‌گذاری شده و پرداخت در دفترروزنامه پرداخت "
+"تعریف‌شده در پیکربندی درگاه پرداخت ثبت می‌شود.\n"
 "این حالت در صورتی توصیه می شود که فاکتور نهایی را در هنگام سفارش و نه پس از "
 "تحویل صادر کنید."
 
@@ -5050,7 +5053,8 @@ msgstr "درصد مبلغی که باید پیش‌فاکتور شود، بدو�
 msgid ""
 "The percentage of the amount needed that must be paid by the customer to "
 "confirm the order."
-msgstr "درصدی از مبلغ مورد نیاز که باید توسط مشتری برای تایید سفارش پرداخت شود."
+msgstr ""
+"درصدی از مبلغ مورد نیاز که باید توسط مشتری برای تایید سفارش پرداخت شود."
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_company__prepayment_percent
@@ -5093,9 +5097,9 @@ msgid ""
 "yet. You can either use a per-line discount, or ask an administrator to "
 "grant the discount the first time."
 msgstr ""
-"به نظر می رسد هنوز هیچ محصول تخفیفی برای این شرکت پیکربندی نشده است. می‌"
-"توانید از تخفیف در هر خط استفاده کنید یا از یک مدیر بخواهید که برای بار اول "
-"تخفیف را اعطا کند."
+"به نظر می رسد هنوز هیچ محصول تخفیفی برای این شرکت پیکربندی نشده است. "
+"می‌توانید از تخفیف در هر خط استفاده کنید یا از یک مدیر بخواهید که برای بار "
+"اول تخفیف را اعطا کند."
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_company__downpayment_account_id
@@ -5212,7 +5216,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid ""
 "This will update all taxes based on the currently selected fiscal position."
-msgstr "این همه مالیات ها را بر اساس موقعیت مالی انتخاب شده فعلی به روز می کند."
+msgstr ""
+"این همه مالیات ها را بر اساس موقعیت مالی انتخاب شده فعلی به روز می کند."
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -5583,8 +5588,8 @@ msgid ""
 "You can select all orders and invoice them in batch,<br>\n"
 "            or check every order and invoice them one by one."
 msgstr ""
-"می‌توانید همه سفارش‌ها را انتخاب کنید و آنها را به صورت دسته‌ای فاکتور کنید،<br>"
-"\n"
+"می‌توانید همه سفارش‌ها را انتخاب کنید و آنها را به صورت دسته‌ای فاکتور کنید،"
+"<br>\n"
 "             یا هر سفارش را بررسی کنید و یک به یک آنها را فاکتور کنید."
 
 #. module: sale
@@ -5601,7 +5606,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
 msgid "You cannot cancel a locked order. Please unlock it first."
-msgstr "شما نمی توانید یک سفارش قفل شده را لغو کنید. لطفا ابتدا آن را باز کنید."
+msgstr ""
+"شما نمی توانید یک سفارش قفل شده را لغو کنید. لطفا ابتدا آن را باز کنید."
 
 #. module: sale
 #. odoo-python

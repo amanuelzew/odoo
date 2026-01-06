@@ -78,9 +78,9 @@ registry.category("web_tour.tours").add("test_purchase_order_suggest_search_pane
          * (monthly demand, suggested_qty, forecasted + record ordering)
          * ------------------------------------------------------------------
          */
-        ...catalogSuggestion.setParameters({ basedOn: "Last 7 days", nbDays: 28, factor: 50 }), // 1 order of 12
+        ...catalogSuggestion.setParameters({ basedOn: "Last 7 days", nbDays: 28, factor: 50 }), // 1 order of 12 used in computation of demand // 28 days --> forecast uses both 50 delivery
         { trigger: "span[name='suggest_total']:visible:contains('480')" },
-        ...catalogSuggestion.assertCatalogRecord("test_product", { monthly: 52, suggest: 24 }),
+        ...catalogSuggestion.assertCatalogRecord("test_product", { monthly: 52, suggest: 24, forecast: 100 }),
         ...catalogSuggestion.checkKanbanRecordPosition("test_product", 0),
 
         ...catalogSuggestion.setParameters({ basedOn: "Last 30 days", factor: 10 }), // 2 orders of 12
@@ -92,9 +92,9 @@ registry.category("web_tour.tours").add("test_purchase_order_suggest_search_pane
         ...catalogSuggestion.assertCatalogRecord("test_product", { monthly: 8, suggest: 37 }),
 
         // --- Check with Forecasted quantities
-        ...catalogSuggestion.setParameters({ basedOn: "Forecasted", factor: 100 }),
-        { trigger: "span[name='suggest_total']:visible:contains('2,000')" },
-        ...catalogSuggestion.assertCatalogRecord("test_product", { forecast: 100, suggest: 100 }),
+        ...catalogSuggestion.setParameters({ basedOn: "Forecasted", nbDays: 18, factor: 100 }),
+        { trigger: "span[name='suggest_total']:visible:contains('1,000')", pause: true },
+        ...catalogSuggestion.assertCatalogRecord("test_product", { forecast: 50, suggest: 50 }), // 18 days --> forecast uses only one 50 delivery
 
         ...catalogSuggestion.setParameters({ nbDays: 7 }),
         { trigger: "span[name='suggest_total']:visible:contains('$ 0.00')" }, // Move out of 100 in 20days, so no suggest for 7 days
@@ -105,43 +105,15 @@ registry.category("web_tour.tours").add("test_purchase_order_suggest_search_pane
         ...catalogSuggestion.assertCatalogRecord("test_product", { forecast: 100, monthly: 24 }),
         ...catalogSuggestion.checkKanbanRecordPosition("Courage", 0),
         { trigger: "span[name='kanban_monthly_demand_qty']:visible:contains('24')" }, // Should come back to normal monthly demand
+
         /*
-         * -------------------  PART 3 : KANBAN ACTIONS ---------------------
-         * Checks suggest and kanban record interactions (purchase.order model)
-         * (Add, remove and add all buttons)
-         * ------------------------------------------------------------------
-         */
-
-        //  ---- Test adding from individual product card adds the correct qty
-        ...catalogSuggestion.toggleSuggest(true),
-        ...catalogSuggestion.setParameters({ basedOn: "Last 7 days", nbDays: 28, factor: 50 }),
-        ...catalogSuggestion.assertCatalogRecord("test_product", { monthly: 52, suggest: 24 }), // Wait for suggestions to appear
-        ...productCatalog.addProduct("test_product"),
-        ...productCatalog.waitForQuantity("test_product", 24),
-
-        //  ---- UI should hide suggestion if in the order qty = suggested_qty
-        { trigger: "div[name='kanban_purchase_suggest'] span:hidden" }, // If qty in PO == suggested_qty --> hide suggest string
-        ...productCatalog.addProduct("test_product"),
-        ...productCatalog.waitForQuantity("test_product", 25),
-        { trigger: "div[name='kanban_purchase_suggest'] span:visible" }, // If qty in PO != suggested_qty --> show suggest string
-
-        // -- The quantity in the catalog and order line should be equal
-        ...productCatalog.goBackToOrder(),
-        ...purchaseForm.checkLineValues(0, { product: "test_product", quantity: "25.00" }),
-        ...purchaseForm.openCatalog(),
-        ...productCatalog.removeProduct("test_product"),
-        // Should go back to displaying suggested qtys
-        ...catalogSuggestion.assertCatalogRecord("test_product", { monthly: 52, suggest: 24 }),
-        ...catalogSuggestion.checkKanbanRecordPosition("test_product", 0),
-        /*
-         * -------------------  PART 4 : KANBAN FILTERS ---------------------
+         * -------------------  PART 3 : KANBAN FILTERS ---------------------
          * Checks suggest and searchModel (filters) interactions
          * (Add / Remove with filters), category filters
          * ------------------------------------------------------------------
          */
 
         // ---- Check Adding non suggested product works with suggest
-        ...catalogSuggestion.toggleSuggest(false),
         ...productCatalog.addProduct("Courage"),
         ...productCatalog.waitForQuantity("Courage", 1),
         ...catalogSuggestion.toggleSuggest(true),

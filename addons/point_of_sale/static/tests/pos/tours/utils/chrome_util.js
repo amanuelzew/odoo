@@ -91,7 +91,7 @@ export function doCashMove(amount, reason) {
         })),
         {
             isActive: ["mobile"],
-            trigger: ".o-overlay-item:nth-child(2) .modal-footer button:contains('Ok')",
+            trigger: ".o-overlay-item:nth-child(2) .modal-footer button:contains('Confirm')",
             run: "click",
         },
         Dialog.confirm(),
@@ -133,6 +133,12 @@ export function clickBtn(name, { expectUnloadPage = false } = {}) {
         trigger: `body button:contains(${name})`,
         run: "click",
         expectUnloadPage,
+    };
+}
+export function hasBtn(name) {
+    return {
+        content: `Check button ${name} exist`,
+        trigger: `body button:contains(${name})`,
     };
 }
 export function fillTextArea(target, value) {
@@ -192,6 +198,24 @@ export function presetTimingSlotIs(hour) {
 }
 export function selectPresetTimingSlotHour(hour) {
     return { trigger: `.modal button:contains('${hour}')`, run: "click" };
+}
+export function presetTimingSlotHourNotExists(hour) {
+    return { trigger: negate(`.modal button:visible:contains('${hour}')`) };
+}
+export function presetTimingSlotHourExists(hour) {
+    return { trigger: `.modal button:contains('${hour}')` };
+}
+export function selectSlotDays(d) {
+    return {
+        trigger: `.modal .d-flex.w-100.flex-wrap.gap-2.mt-2 button:nth-of-type(${d})`,
+        run: "click",
+    };
+}
+export function selectPresetTimingSlotIndex(index) {
+    return {
+        trigger: `.modal .row div:not(.d-none) .d-flex.flex-wrap.gap-1 button:nth-of-type(${index})`,
+        run: "click",
+    };
 }
 export function clickRegister() {
     return { trigger: ".pos-leftheader .register-label", run: "click" };

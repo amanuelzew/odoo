@@ -1938,6 +1938,18 @@ test(`basic grouped list rendering with a date field between two fields with a a
     expect(queryAllTexts(`.o_group_header:eq(0) td`)).toEqual(["-4", "", "-4"]);
 });
 
+test(`basic grouped list rendering 1 col without selector and with optional field`, async () => {
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `<list><field name="foo"/><field name="bar" optional="hidden"/></list>`,
+        groupBy: ["bar"],
+        allowSelectors: false,
+    });
+    expect(`.o_group_header:eq(0) th`).toHaveCount(2);
+    expect(`.o_group_header th:eq(0)`).toHaveAttribute("colspan", "1");
+});
+
 test(`basic grouped list rendering 1 col without selector`, async () => {
     await mountView({
         resModel: "foo",
@@ -1991,6 +2003,25 @@ test(`basic grouped list rendering 3 cols without selector`, async () => {
         resModel: "foo",
         type: "list",
         arch: `<list><field name="foo"/><field name="bar"/><field name="text"/></list>`,
+        groupBy: ["bar"],
+        allowSelectors: false,
+    });
+    expect(`.o_group_header:eq(0) th`).toHaveCount(3);
+    expect(`.o_group_header th:eq(0)`).toHaveAttribute("colspan", "2");
+});
+
+test(`basic grouped list rendering 3 cols without selector and with optional fields`, async () => {
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `
+            <list>
+                <field name="foo"/>
+                <field name="bar"/>
+                <field name="text"/>
+                <field name="date" optional="hidden"/>
+            </list>
+        `,
         groupBy: ["bar"],
         allowSelectors: false,
     });
@@ -4971,6 +5002,54 @@ test(`aggregates monetary (currency field in view)`, async () => {
     expect(`tfoot`).toHaveText("$ 2,000.00");
 });
 
+test(`aggregates monetary (currency field not set)`, async () => {
+    Foo._fields.amount = fields.Monetary({ currency_field: "currency_test" });
+    Foo._fields.currency_test = fields.Many2one({ relation: "res.currency" });
+    Foo._records[0].currency_test = 1;
+
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `
+            <list>
+                <field name="amount" widget="monetary" sum="Sum"/>
+                <field name="currency_test"/>
+            </list>
+        `,
+    });
+    expect(queryAllTexts(`tbody .o_monetary_cell`)).toEqual([
+        "$ 1,200.00",
+        "500.00",
+        "300.00",
+        "0.00",
+    ]);
+    expect(`tfoot`).toHaveText("$ 0.00?");
+});
+
+test(`aggregates monetary (currency field not set on first record)`, async () => {
+    Foo._fields.amount = fields.Monetary({ currency_field: "currency_test" });
+    Foo._fields.currency_test = fields.Many2one({ relation: "res.currency" });
+    Foo._records[1].currency_test = 1;
+
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `
+            <list>
+                <field name="amount" widget="monetary" sum="Sum"/>
+                <field name="currency_test"/>
+            </list>
+        `,
+    });
+    expect(queryAllTexts(`tbody .o_monetary_cell`)).toEqual([
+        "1,200.00",
+        "$ 500.00",
+        "300.00",
+        "0.00",
+    ]);
+    expect(`tfoot`).toHaveText("$ 0.00?");
+});
+
 test(`aggregates monetary with custom digits (same currency)`, async () => {
     Foo._records = Foo._records.map((record) => ({
         ...record,
@@ -7440,6 +7519,38 @@ test(`click on header in empty list with sample data`, async () => {
     expect(`.o_list_view`).toHaveText(content, {
         message: "the content should still be the same",
     });
+});
+
+test(`list grouped by m2o with sample data with more than 5 real groups`, async () => {
+    Foo._records = [];
+    onRpc("web_read_group", () => ({
+        // simulate 6, empty, real groups
+        groups: [1, 2, 3, 4, 5, 6].map((id) => ({
+            __count: 0,
+            __records: [],
+            m2o: [id, `Value ${id}`],
+            __extra_domain: [["m2o", "=", id]],
+        })),
+        length: 6,
+    }));
+
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `<list sample="1"><field name="foo"/></list>`,
+        groupBy: ["m2o"],
+    });
+    expect(`.o_list_view .o_content`).toHaveClass("o_view_sample_data");
+    expect(`.o_list_table`).toHaveCount(1);
+    expect(`.o_group_header`).toHaveCount(6);
+    expect(queryAllTexts(`.o_group_header`)).toEqual([
+        "Value 1 (3)",
+        "Value 2 (3)",
+        "Value 3 (3)",
+        "Value 4 (3)",
+        "Value 5 (2)",
+        "Value 6 (2)",
+    ]);
 });
 
 test.tags("desktop");
@@ -12704,6 +12815,47 @@ test(`grouped list view move to previous page of group when all records from las
     await contains(`.dropdown-item:contains(Delete)`).click();
     await contains(`.modal .btn-primary`).click();
     expect(`th.o_group_name:eq(0) .o_pager_counter`).toHaveCount(0);
+    expect(`.o_data_row`).toHaveCount(2);
+});
+
+test.tags("desktop");
+test(`grouped list view move to previous page of group when all records from last page deleted with more pages`, async () => {
+    Foo._records.push({ id: 6, foo: "foo", m2o: 1 });
+    Foo._records.push({ id: 7, foo: "foo", m2o: 1 });
+    onRpc("web_search_read", ({ kwargs }) => {
+        expect.step(`web_search_read ${kwargs.limit} - ${kwargs.offset}`);
+    });
+    await mountView({
+        resModel: "foo",
+        type: "list",
+        arch: `<list limit="2"><field name="display_name"/></list>`,
+        actionMenus: {},
+        groupBy: ["m2o"],
+    });
+    expect(`th:contains(Value 1 (5))`).toHaveCount(1, {
+        message: "Value 1 should contain 3 records",
+    });
+    expect(`th:contains(Value 2 (1))`).toHaveCount(1, {
+        message: "Value 2 should contain 1 record",
+    });
+    await contains(`.o_group_header:eq(0)`).click();
+    expect(getPagerValue(queryFirst(`.o_group_header`))).toEqual([1, 2]);
+    expect(getPagerLimit(queryFirst(`.o_group_header`))).toBe(5);
+    expect.verifySteps(["web_search_read 2 - 0"]);
+
+    // move to next page
+    await pagerNext(queryFirst(`.o_group_header`));
+    await pagerNext(queryFirst(`.o_group_header`));
+    expect(getPagerValue(queryFirst(`.o_group_header`))).toEqual([5, 5]);
+    expect(getPagerLimit(queryFirst(`.o_group_header`))).toBe(5);
+    expect.verifySteps(["web_search_read 2 - 2", "web_search_read 2 - 4"]);
+
+    // delete a record
+    await contains(`.o_data_row .o_list_record_selector input`).click();
+    await contains(`.o_cp_action_menus .dropdown-toggle`).click();
+    await contains(`.dropdown-item:contains(Delete)`).click();
+    await contains(`.modal .btn-primary`).click();
+    expect(`th.o_group_name:eq(0) .o_pager_counter`).toHaveCount(1);
     expect(`.o_data_row`).toHaveCount(2);
 });
 

@@ -137,9 +137,11 @@ test("should be able to create a new group chat from an existing chat", async ()
     await start();
     await openDiscuss(channelId);
     await click(".o-mail-DiscussContent-header button[title='Invite People']");
+    await contains(".o-discuss-ChannelInvitation");
     await insertText(".o-discuss-ChannelInvitation-search", "TestPartner2");
     await click(".o-discuss-ChannelInvitation-selectable", { text: "TestPartner2" });
     await click("button[title='Create Group Chat']:enabled");
+    await contains(".o-discuss-ChannelInvitation", { count: 0 });
     await contains(".o-mail-DiscussSidebarChannel", {
         text: "Mitchell Admin, TestPartner, and TestPartner2",
     });
@@ -222,4 +224,21 @@ test("invite user to self chat opens DM chat with user", async () => {
     await click(".o-discuss-ChannelInvitation-selectable", { text: "TestPartner" });
     await click("button:contains('Go to Conversation'):enabled");
     await contains(".o-mail-DiscussSidebarChannel.o-active", { text: "TestPartner" });
+});
+
+test("Invite sidebar action has the correct title for group chats", async () => {
+    const pyEnv = await startServer();
+    const partnerId = pyEnv["res.partner"].create({ name: "Demo" });
+    const channelId = pyEnv["discuss.channel"].create({
+        channel_member_ids: [
+            Command.create({ partner_id: serverState.partnerId }),
+            Command.create({ partner_id: partnerId }),
+        ],
+        channel_type: "group",
+    });
+    await start();
+    await openDiscuss(channelId);
+    await click("button[title='Chat Actions']");
+    await click(".o-dropdown-item", { text: "Invite People" });
+    await contains(".modal-title", { text: "Mitchell Admin and Demo" });
 });

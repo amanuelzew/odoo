@@ -593,11 +593,20 @@ class TestFrontend(TestFrontendCommon):
             'name': 'Takeaway',
             'identification': 'name',
         })
+        self.preset_delivery = self.env['pos.preset'].create({
+            'name': 'Delivery',
+            'identification': 'address',
+        })
         self.main_pos_config.write({
             'use_presets': True,
-            'default_preset_id': self.preset_eat_in.id,
-            'available_preset_ids': [(6, 0, [self.preset_takeaway.id])],
+            'default_preset_id': self.preset_delivery.id,
+            'available_preset_ids': [(6, 0, [
+                self.preset_takeaway.id,
+                self.preset_eat_in.id,
+                self.preset_delivery.id,
+            ])],
         })
+        self.start_pos_tour('test_preset_delivery_restaurant')
         resource_calendar = self.env['resource.calendar'].create({
             'name': 'Takeaway',
             'attendance_ids': [(0, 0, {
@@ -612,6 +621,9 @@ class TestFrontend(TestFrontendCommon):
             'use_timing': True,
             'resource_calendar_id': resource_calendar
         })
+        self.main_pos_config.write({'default_preset_id': self.preset_takeaway.id})
+        self.start_pos_tour('test_open_register_with_preset_takeaway')
+        self.main_pos_config.write({'default_preset_id': self.preset_eat_in.id})
         self.start_pos_tour('test_preset_timing_restaurant')
         self.preset_eat_in.write({
             'use_guest': True,
@@ -780,3 +792,36 @@ class TestFrontend(TestFrontendCommon):
         self.pos_config.is_order_printer = False
         self.pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_combo_synchronisation')
+
+    def test_global_discount_split(self):
+        if self.env['ir.module.module']._get('pos_discount').state != 'installed':
+            self.skipTest("pos_discount module is required for this test")
+
+        self.discount_product = self.env["product.product"].create({
+            "name": "Discount Product",
+            "type": "service",
+            "list_price": 0,
+            "available_in_pos": True,
+        })
+
+        self.pos_config.write({
+            'iface_discount': True,
+            'module_pos_discount': True,
+            'discount_product_id': self.discount_product.id,
+        })
+
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('SplitBillScreenTourTransfer')
+
+    def test_name_preset_skip_screen(self):
+        self.preset_takeaway = self.env['pos.preset'].create({
+            'name': 'Takeaway',
+            'identification': 'name',
+        })
+        self.pos_config.write({
+            'use_presets': True,
+            'default_preset_id': self.preset_takeaway.id,
+            'available_preset_ids': [(6, 0, [self.preset_takeaway.id])],
+        })
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('test_name_preset_skip_screen')

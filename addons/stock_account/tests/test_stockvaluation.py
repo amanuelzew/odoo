@@ -108,12 +108,12 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(move5.value, 160.0)
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 0, 'credit': 80},
-                {'account_id': self.account_expense.id, 'debit': 80, 'credit': 0},
+                {'account_id': self.account_stock_variation.id, 'debit': 80, 'credit': 0},
             ]
         )
 
@@ -126,12 +126,12 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(move6.value, 120.0)
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 80, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 80},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 80},
             ]
         )
         self.assertEqual(sum(self._get_stock_valuation_move_lines().mapped('balance')), 0)
@@ -280,6 +280,16 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(move8.remaining_qty, 0.0)  # unused in internal moves
         self.assertEqual(move9.remaining_qty, 0.0)  # unused in out moves
 
+    def test_fifo_perpetual_3(self):
+        """ Make sure that the fifo valuation is correct for non-integer quantities.
+        """
+        product = self.product_fifo
+
+        move1 = self._make_in_move(product, 1.9, 10)
+
+        self.assertAlmostEqual(move1.remaining_qty, 1.9)
+        self.assertAlmostEqual(move1.remaining_value, 19)
+
     def test_fifo_negative_1(self):
         """ Send products that you do not have. Value the first outgoing move to the standard
         price, receive in multiple times the delivered quantity and run _fifo_vacuum to compensate.
@@ -302,12 +312,12 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 0, 'credit': 400},
-                {'account_id': self.account_expense.id, 'debit': 400, 'credit': 0},
+                {'account_id': self.account_stock_variation.id, 'debit': 400, 'credit': 0},
             ]
         )
 
@@ -328,14 +338,14 @@ class TestStockValuation(TestStockValuationCommon):
         valuation_aml = closing_move.line_ids.filtered(
             lambda l: l.account_id == self.account_stock_valuation
         )
-        expense_aml = closing_move.line_ids.filtered(
-            lambda l: l.account_id == self.account_expense
+        variation_aml = closing_move.line_ids.filtered(
+            lambda l: l.account_id == self.account_stock_variation
         )
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 250, "credit": 0},
-                {"account_id": self.account_expense.id, "debit": 0, "credit": 250},
+                {"account_id": self.account_stock_variation.id, "debit": 0, "credit": 250},
             ],
         )
 
@@ -352,14 +362,14 @@ class TestStockValuation(TestStockValuationCommon):
         valuation_aml = closing_move.line_ids.filtered(
             lambda l: l.account_id == self.account_stock_valuation
         )
-        expense_aml = closing_move.line_ids.filtered(
-            lambda l: l.account_id == self.account_expense
+        variation_aml = closing_move.line_ids.filtered(
+            lambda l: l.account_id == self.account_stock_variation
         )
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 400, "credit": 0},
-                {"account_id": self.account_expense.id, "debit": 0, "credit": 400},
+                {"account_id": self.account_stock_variation.id, "debit": 0, "credit": 400},
             ],
         )
 
@@ -369,7 +379,8 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(product.qty_available, 10)
         self.assertEqual(product.total_value, 250)
         self.assertEqual(sum(self._get_stock_valuation_move_lines().mapped('balance')), 250)
-        self.assertEqual(sum(self._get_expense_move_lines().mapped('balance')), -250)
+        self.assertEqual(sum(self._get_stock_variation_move_lines().mapped('balance')), -250)
+        self.assertEqual(sum(self._get_expense_move_lines().mapped('balance')), 0)
 
     def test_fifo_negative_2(self):
         """ Receives 10 units, send 10 units, then send more: the extra quantity should be valued
@@ -411,14 +422,14 @@ class TestStockValuation(TestStockValuationCommon):
         valuation_aml = closing_move.line_ids.filtered(
             lambda l: l.account_id == self.account_stock_valuation
         )
-        expense_aml = closing_move.line_ids.filtered(
-            lambda l: l.account_id == self.account_expense
+        variation_aml = closing_move.line_ids.filtered(
+            lambda l: l.account_id == self.account_stock_variation
         )
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 0, "credit": 210},
-                {"account_id": self.account_expense.id, "debit": 210, "credit": 0},
+                {"account_id": self.account_stock_variation.id, "debit": 210, "credit": 0},
             ],
         )
 
@@ -488,12 +499,12 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self.env['account.move'].browse(move2.company_id.action_close_stock_valuation()['res_id'])
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 300, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 300},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 300},
             ]
         )
 
@@ -509,12 +520,12 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self.env['account.move'].browse(move2.company_id.action_close_stock_valuation()['res_id'])
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 320, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 320},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 320},
             ]
         )
 
@@ -532,12 +543,12 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self.env['account.move'].browse(move2.company_id.action_close_stock_valuation()['res_id'])
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 100, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 100},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 100},
             ]
         )
 
@@ -593,13 +604,13 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(product.total_value, 100)
 
         closing_move = self._close()
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 100, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 100},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 100},
             ]
         )
 
@@ -617,13 +628,13 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertEqual(product.total_value, 220)
 
         closing_move = self._close()
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 120, "credit": 0},
-                {"account_id": self.account_expense.id, "debit": 0, "credit": 120},
+                {"account_id": self.account_stock_variation.id, "debit": 0, "credit": 120},
             ],
         )
 
@@ -639,13 +650,13 @@ class TestStockValuation(TestStockValuationCommon):
         self.assertAlmostEqual(product.qty_available, 12.0)
         self.assertEqual(product.total_value, 140)
         closing_move = self._close()
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 0, "credit": 80},
-                {"account_id": self.account_expense.id, "debit": 80, "credit": 0},
+                {"account_id": self.account_stock_variation.id, "debit": 80, "credit": 0},
             ],
         )
 
@@ -662,14 +673,14 @@ class TestStockValuation(TestStockValuationCommon):
 
         self.assertEqual(product.total_value, 72)
         closing_move = self._close()
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
         # The closing is correct despite an incorrect out move value
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {"account_id": self.account_stock_valuation.id, "debit": 0, "credit": 68},
-                {"account_id": self.account_expense.id, "debit": 68, "credit": 0},
+                {"account_id": self.account_stock_variation.id, "debit": 68, "credit": 0},
             ],
         )
 
@@ -2269,7 +2280,7 @@ class TestStockValuation(TestStockValuationCommon):
 
         warehouse_3 = self.env['stock.warehouse'].create({'code': 'WH-neg'})
         self._make_out_move(product=product, quantity=20.0, location_id=warehouse_3.lot_stock_id.id)
-        self.assertRecordValues(product, [{'avg_cost': 20.0, 'total_value': 0.0, 'qty_available': 0.0}])
+        self.assertRecordValues(product, [{'avg_cost': 0.0, 'total_value': 0.0, 'qty_available': 0.0}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_1.id), [{'avg_cost': 20.0, 'total_value': 300, 'qty_available': 15}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_2.id), [{'avg_cost': 20.0, 'total_value': 100, 'qty_available': 5}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_3.id), [{'avg_cost': 20.0, 'total_value': -400, 'qty_available': -20}])
@@ -2292,7 +2303,7 @@ class TestStockValuation(TestStockValuationCommon):
 
         warehouse_3 = self.env['stock.warehouse'].create({'code': 'WH-neg'})
         self._make_out_move(product=product, quantity=20.0, location_id=warehouse_3.lot_stock_id.id)
-        self.assertRecordValues(product, [{'avg_cost': 30.0, 'total_value': 0.0, 'qty_available': 0.0}])
+        self.assertRecordValues(product, [{'avg_cost': 0.0, 'total_value': 0.0, 'qty_available': 0.0}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_1.id), [{'avg_cost': 30.0, 'total_value': 450, 'qty_available': 15}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_2.id), [{'avg_cost': 30.0, 'total_value': 150, 'qty_available': 5}])
         self.assertRecordValues(product.with_context(warehouse_id=warehouse_3.id), [{'avg_cost': 30.0, 'total_value': -600, 'qty_available': -20}])
@@ -2359,6 +2370,7 @@ class TestStockValuation(TestStockValuationCommon):
         This test check that the value of this SVL is correct and does result in new_std_price * quantity.
         To do so, we create 2 In moves, which result in a standard price rounded at $5.29, the non-rounded value ≃ 5.2857.
         Then we update the standard price to $7
+        We will then do one more In move to ensure that the most recent value information is used when both sources are present.
         """
         product = self.product_avco
         self._make_in_move(product, 5, unit_cost=5)
@@ -2377,6 +2389,13 @@ class TestStockValuation(TestStockValuationCommon):
         with freeze_time(Datetime.now() + timedelta(minutes=1)):
             product.standard_price = 7
         self.assertEqual(product.total_value, 49)
+
+        with freeze_time(Datetime.now() + timedelta(minutes=2)):
+            move = self._make_in_move(product, 5, unit_cost=5)
+            # We force the sequence here to simulate moves that are not ordered by date
+            move.sequence = -1
+
+        self.assertEqual(product.total_value, 74)  # 49 + (5 * 5) = 74
 
     def test_average_manual_revaluation(self):
         product = self.product_avco
@@ -2430,13 +2449,13 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
 
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 0.0, 'credit': 882.0},
-                {'account_id': self.account_expense.id, 'debit': 882.0, 'credit': 0.0},
+                {'account_id': self.account_stock_variation.id, 'debit': 882.0, 'credit': 0.0},
             ]
         )
 
@@ -2486,13 +2505,13 @@ class TestStockValuation(TestStockValuationCommon):
 
         closing_move = self.env['account.move'].browse(move3.company_id.action_close_stock_valuation()['res_id'])
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
 
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 0.0, 'credit': 882.0},
-                {'account_id': self.account_expense.id, 'debit': 882.0, 'credit': 0.0},
+                {'account_id': self.account_stock_variation.id, 'debit': 882.0, 'credit': 0.0},
             ]
         )
 
@@ -2720,12 +2739,12 @@ class TestStockValuation(TestStockValuationCommon):
         # Check account move
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 80, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 80},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 80},
             ]
         )
 
@@ -2756,12 +2775,12 @@ class TestStockValuation(TestStockValuationCommon):
         # Check account move
         closing_move = self._close()
         valuation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_valuation)
-        expense_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_expense)
+        variation_aml = closing_move.line_ids.filtered(lambda l: l.account_id == self.account_stock_variation)
         self.assertRecordValues(
-            valuation_aml + expense_aml,
+            valuation_aml + variation_aml,
             [
                 {'account_id': self.account_stock_valuation.id, 'debit': 4, 'credit': 0},
-                {'account_id': self.account_expense.id, 'debit': 0, 'credit': 4},
+                {'account_id': self.account_stock_variation.id, 'debit': 0, 'credit': 4},
             ]
         )
 
@@ -2907,3 +2926,33 @@ class TestStockValuation(TestStockValuationCommon):
                 {'account_id': self.account_expense.id, 'credit': 0.0, 'debit': 600.0},
             ]
         )
+
+    def test_inventory_user_can_validate_avco_picking(self):
+        """Ensure that an inventory user can validate a receipt picking
+        containing an AVCO-costed product without triggering an access error.
+        """
+        move = self.env['stock.move'].create({
+            'product_id': self.product_avco_auto.id,
+            'product_uom_qty': 1,
+            'product_uom': self.product_avco_auto.uom_id.id,
+            'location_id': self.customer_location.id,
+            'location_dest_id': self.stock_location.id,
+        })
+        move._action_confirm()
+        move.quantity = 1.0
+        move.picked = True
+        move.with_user(self.inventory_user)._action_done()
+        self.assertEqual(move.state, 'done')
+
+    def test_product_value_details_computation_with_move_zero_quantity(self):
+        """Test that the current value details computation is skipped when the move quantity is zero."""
+        move = self._make_in_move(self.product_avco, 0.0)
+        self.assertEqual(move.quantity, 0.0)
+
+        product_value = self.env['product.value'].create({
+            'move_id': move.id,
+            'value': move.value_manual,
+        })
+        product_value_form = Form(product_value)
+
+        self.assertFalse(product_value_form.current_value_details)

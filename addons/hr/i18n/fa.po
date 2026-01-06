@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:35+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
 "PO-Revision-Date: 2025-11-08 19:01+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-19/hr/fa/>\n"
@@ -430,6 +430,11 @@ msgstr "<span class=\"text-muted small\">وقت پاسخ دادن</span>"
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_form
 msgid "<span invisible=\"not contract_date_start\">to</span>"
 msgstr "<span invisible=\"not contract_date_start\">به</span>"
+
+#. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.view_partner_bank_form_inherit_hr
+msgid "<span invisible=\"not employee_salary_amount_is_percentage\">%</span>"
+msgstr ""
 
 #. module: hr
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_form
@@ -2121,6 +2126,11 @@ msgid "Document"
 msgstr "سند"
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_form
+msgid "Documents"
+msgstr ""
+
+#. module: hr
 #: model:ir.model.fields,field_description:hr.field_hr_employee__driving_license
 msgid "Driving License"
 msgstr "گواهینامه‌ی رانندگی"
@@ -2334,6 +2344,12 @@ msgstr "حساب‌های بانکی کارمند برای پرداخت حقوق
 #: model_terms:hr.job,website_description:hr.job_cto
 msgid "Employee development is a core focus"
 msgstr "توسعه‌ی کارمندان یکی از محورهای اصلی است"
+
+#. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_contract_template_form_view
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_form
+msgid "Employee will be excluded from Pay Runs"
+msgstr ""
 
 #. module: hr
 #: model:ir.model.fields,field_description:hr.field_res_users__employee_bank_account_ids
@@ -2682,6 +2698,7 @@ msgid "Full-Time"
 msgstr "تمام‌وقت"
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_version_search_view
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
 msgid "Future Activities"
 msgstr "فعالیت های آینده"
@@ -3236,6 +3253,7 @@ msgid "Last Updated on"
 msgstr "آخرین بروز رسانی در"
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_version_search_view
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
 msgid "Late Activities"
 msgstr "فعالیتهای اخیر"
@@ -3620,6 +3638,11 @@ msgstr ""
 "سختگیرانه"
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_form
+msgid "No user linked"
+msgstr ""
+
+#. module: hr
 #: model_terms:hr.job,website_description:hr.job_consultant
 #: model_terms:hr.job,website_description:hr.job_developer
 #: model_terms:hr.job,website_description:hr.job_hrm
@@ -3633,11 +3656,6 @@ msgstr "بدون اتلاف وقت در فرآیندهای سازمانی، مس
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_form
 msgid "Not Employed"
 msgstr ""
-
-#. module: hr
-#: model_terms:ir.ui.view,arch_db:hr.view_employee_form
-msgid "Not linked to an user"
-msgstr "به کاربری لینک نشده است"
 
 #. module: hr
 #: model:ir.model.fields,field_description:hr.field_hr_department__note
@@ -4515,6 +4533,11 @@ msgid "Show Hr Icon Display"
 msgstr "نمایش آیکون منابع انسانی"
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_version_search_view
+msgid "Show all records whose next activity date is past"
+msgstr ""
+
+#. module: hr
 #: model:ir.model.fields,field_description:hr.field_hr_employee__birthday_public_display
 msgid "Show to all employees"
 msgstr ""
@@ -4887,6 +4910,12 @@ msgid "This employee already has an user."
 msgstr "این کارمند قبلاً یک کاربر دارد."
 
 #. module: hr
+#. odoo-python
+#: code:addons/hr/models/hr_employee.py:0
+msgid "This field %(field_name)s doesn't exist on this model (hr.version)."
+msgstr ""
+
+#. module: hr
 #: model:ir.model.fields,help:hr.field_hr_employee__tz
 #: model:ir.model.fields,help:hr.field_hr_version__tz
 msgid ""
@@ -4943,6 +4972,7 @@ msgstr ""
 "غیره)، باید یک کارمند جدید در شرکت جدید ایجاد کنید."
 
 #. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_version_search_view
 #: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
 msgid "Today Activities"
 msgstr "فعالیت های امروز"
@@ -5705,6 +5735,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr.field_hr_employee__work_permit_name
 msgid "work_permit_name"
 msgstr "نام_اجازه_کار"
+
+#~ msgid "Not linked to an user"
+#~ msgstr "به کاربری لینک نشده است"
 
 #~ msgid "&amp;nbsp;"
 #~ msgstr "&amp;nbsp;"

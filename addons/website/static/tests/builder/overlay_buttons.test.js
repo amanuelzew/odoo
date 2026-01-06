@@ -18,7 +18,8 @@ import { BuilderAction } from "@html_builder/core/builder_action";
 defineWebsiteModels();
 
 test("Use the 'move arrows' overlay buttons", async () => {
-    await setupWebsiteBuilder(`
+    await setupWebsiteBuilder(
+        `
         <section>
             <div class="container">
                 <div class="row">
@@ -37,7 +38,94 @@ test("Use the 'move arrows' overlay buttons", async () => {
         <section>
             <p>TEST</p>
         </section>
-    `);
+    `,
+        { loadIframeBundles: true }
+    );
+
+    await contains(":iframe section").click();
+    expect(".overlay .o_overlay_options").toHaveCount(1);
+    expect(".overlay .fa-angle-down").toHaveCount(1);
+    expect(".overlay .fa-angle-up").toHaveCount(0);
+    expect(".overlay .fa-angle-left, .overlay .fa-angle-right").toHaveCount(0);
+
+    await contains(":iframe .col-lg-5").click();
+    expect(".overlay .o_overlay_options").toHaveCount(1);
+    expect(".overlay .fa-angle-right").toHaveCount(1);
+    expect(".overlay .fa-angle-left").toHaveCount(0);
+    expect(".overlay .fa-angle-up, .overlay .fa-angle-down").toHaveCount(0);
+
+    await contains(":iframe .col-lg-3").click();
+    expect(".overlay .fa-angle-right").toHaveCount(0);
+    expect(".overlay .fa-angle-left").toHaveCount(1);
+
+    await contains(":iframe .col-lg-4").click();
+    expect(".overlay .fa-angle-right").toHaveCount(1);
+    expect(".overlay .fa-angle-left").toHaveCount(1);
+
+    await contains(".overlay .fa-angle-left").click();
+    expect(":iframe .col-lg-4:nth-child(1)").toHaveCount(1);
+    expect(".overlay .fa-angle-right").toHaveCount(1);
+    expect(".overlay .fa-angle-left").toHaveCount(0);
+});
+
+test("Full-width columns use vertical move arrows", async () => {
+    await setupWebsiteBuilder(
+        `
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12"><p>Full width 1</p></div>
+                    <div class="col-lg-12"><p>Full width 2</p></div>
+                    <div class="col-lg-12"><p>Full width 3</p></div>
+                </div>
+            </div>
+        </section>
+    `,
+        { loadIframeBundles: true }
+    );
+
+    await contains(":iframe .col-lg-12:nth-child(1)").click();
+    expect(".overlay .fa-angle-up").toHaveCount(0);
+    expect(".overlay .fa-angle-down").toHaveCount(1);
+    expect(".overlay .fa-angle-left, .overlay .fa-angle-right").toHaveCount(0);
+
+    await contains(":iframe .col-lg-12:nth-child(2)").click();
+    expect(".overlay .fa-angle-up").toHaveCount(1);
+    expect(".overlay .fa-angle-down").toHaveCount(1);
+    expect(".overlay .fa-angle-left, .overlay .fa-angle-right").toHaveCount(0);
+
+    await contains(":iframe .col-lg-12:nth-child(3)").click();
+    expect(".overlay .fa-angle-up").toHaveCount(1);
+    expect(".overlay .fa-angle-down").toHaveCount(0);
+    expect(".overlay .fa-angle-left, .overlay .fa-angle-right").toHaveCount(0);
+});
+
+test("Use the 'move arrows' overlay buttons within an editable div", async () => {
+    await setupWebsiteBuilder(
+        `
+        <div contenteditable="true">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <p>TEST</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <p>TEST</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <p>TEST</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <p>TEST</p>
+        </section>
+        </div>
+    `,
+        { loadIframeBundles: true }
+    );
 
     await contains(":iframe section").click();
     expect(".overlay .o_overlay_options").toHaveCount(1);
@@ -94,7 +182,8 @@ test("Use the 'grid' overlay buttons", async () => {
 });
 
 test("Refresh the overlay buttons when toggling the mobile preview", async () => {
-    await setupWebsiteBuilder(`
+    await setupWebsiteBuilder(
+        `
         <section>
             <div class="container">
                 <div class="row o_grid_mode" data-row-count="4">
@@ -110,13 +199,15 @@ test("Refresh the overlay buttons when toggling the mobile preview", async () =>
                 </div>
             </div>
         </section>
-    `);
+    `,
+        { loadIframeBundles: true }
+    );
 
     await contains(":iframe .g-col-lg-4").click();
     await contains("[data-action='mobile']").click();
     expect(".overlay .o_send_back, .overlay .o_bring_front").toHaveCount(0);
-    expect(".overlay .fa-angle-left").toHaveCount(1);
-    expect(".overlay .fa-angle-right").toHaveCount(1);
+    expect(".overlay .fa-angle-up").toHaveCount(1);
+    expect(".overlay .fa-angle-down").toHaveCount(1);
 
     await contains("[data-action='mobile']").click();
     expect(".overlay .o_send_back").toHaveCount(1);
@@ -180,17 +271,7 @@ test("Use the 'remove' overlay buttons: removing the last element will remove th
 });
 
 test("Use the 'clone' overlay buttons", async () => {
-    await setupWebsiteBuilder(`
-        <section class="s_text_image" data-snippet="s_text_image" data-name="Text - Image">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <p>TEST</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    `);
+    await setupWebsiteBuilderWithSnippet("s_text_image");
 
     await contains(":iframe .col-lg-5").click();
     expect(".overlay .o_snippet_clone").toHaveCount(1);
@@ -349,4 +430,27 @@ test("An inner snippet alone in a column should not have overlay options", async
     // Only the "Blockquote" should have an overlay.
     expect(".oe_overlay").toHaveCount(3);
     expect(".oe_overlay.oe_active").toHaveCount(1);
+});
+
+test("Should hide 'move up' button when previous sibling is 'o_we_no_overlay'", async () => {
+    await setupWebsiteBuilder(`
+        <section class="o_we_no_overlay">
+            <h1>No overlay section</h1>
+        </section>
+        <section class="first">
+            <h1>First section</h1>
+        </section>
+        <section class="second">
+            <h1>Second section</h1>
+        </section>
+    `);
+
+    await contains(":iframe .first").click();
+    expect(".overlay .o_overlay_options").toHaveCount(1);
+
+    // Can't move up since the previous sibling is excluded
+    expect(".overlay .fa-angle-up").toHaveCount(0);
+
+    // Moving down is still valid
+    expect(".overlay .fa-angle-down").toHaveCount(1);
 });

@@ -34,6 +34,7 @@ export class ToggleBlockPlugin extends Plugin {
         "selection",
         "split",
     ];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         hints: [
             withSequence(20, {
@@ -460,7 +461,12 @@ export class ToggleBlockPlugin extends Plugin {
             if (beforeSplit && afterSplit) {
                 if (content.parentElement.matches(".d-none") || insertBefore) {
                     const newToggle = this.renderToggleBlock();
+                    const newToggleBlock = newToggle.querySelector(toggleSelector);
                     const newTitleEl = newToggle.querySelector(titleSelector);
+                    const dir = toggle.getAttribute("dir");
+                    if (dir) {
+                        newToggleBlock.setAttribute("dir", dir);
+                    }
                     if (insertBefore) {
                         toggle.before(newToggle);
                         newTitleEl.replaceChildren(beforeSplit);

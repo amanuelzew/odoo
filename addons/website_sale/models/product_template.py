@@ -260,7 +260,11 @@ class ProductTemplate(models.Model):
     def write(self, vals):
         # Clear empty ecommerce description content to avoid side-effects on product pages
         # when there is no content to display anyway.
-        if vals.get('description_ecommerce') and is_html_empty(vals['description_ecommerce']):
+        if (
+            (description_ecommerce := vals.get('description_ecommerce'))
+            and is_html_empty(description_ecommerce)
+            and 'media_iframe_video' not in description_ecommerce  # don't remove "empty" video div
+        ):
             vals['description_ecommerce'] = ''
         return super().write(vals)
 
@@ -1028,6 +1032,13 @@ class ProductTemplate(models.Model):
         if self.product_variant_count == 1:
             return self.product_variant_id._to_markup_data(website)
 
+        # perf: temporal solution to avoid slowness when product have many variants and pricelist rules
+        limit = self.env['ir.config_parameter'].sudo().get_param('website_sale.markup_data_limit_variants', False)
+        if limit:
+            product_variant_ids = self.product_variant_ids[:int(limit)]
+        else:
+            product_variant_ids = self.product_variant_ids
+
         base_url = website.get_base_url()
         markup_data = {
             '@context': 'https://schema.org/',
@@ -1035,7 +1046,7 @@ class ProductTemplate(models.Model):
             'name': self.name,
             'image': f'{base_url}{website.image_url(self, "image_1920")}',
             'url': f'{base_url}{self.website_url}',
-            'hasVariant': [product._to_markup_data(website) for product in self.product_variant_ids]
+            'hasVariant': [product._to_markup_data(website) for product in product_variant_ids]
         }
         if self.description_ecommerce:
             markup_data['description'] = text_from_html(self.description_ecommerce)

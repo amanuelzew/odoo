@@ -34,9 +34,10 @@ import { WebsiteBuilderClientAction } from "@website/client_actions/website_prev
 import { WebsiteSystrayItem } from "@website/client_actions/website_preview/website_systray_item";
 import { mockImageRequests } from "./image_test_helpers";
 import { getWebsiteSnippets } from "./snippets_getter.hoot";
-import { BaseOptionComponent } from "@html_builder/core/utils";
+import { BaseOptionComponent, revertPreview } from "@html_builder/core/utils";
 import { BorderConfigurator } from "@html_builder/plugins/border_configurator_option";
 import { WebsiteBuilder } from "@website/builder/website_builder";
+import { getTranslatedElements } from "./translated_elements_getter.hoot";
 
 class Website extends models.Model {
     _name = "website";
@@ -73,6 +74,27 @@ export function defineWebsiteModels() {
             },
         ],
     }));
+}
+
+const domParserCache = new Map();
+function patchDOMParser() {
+    patchWithCleanup(DOMParser.prototype, {
+        parseFromString(html, type) {
+            if (type !== "text/html") {
+                return super.parseFromString(html, type);
+            }
+            if (domParserCache.has(html)) {
+                return domParserCache.get(html).cloneNode(true);
+            }
+            const res = super.parseFromString(html, type);
+            if (res.body?.firstChild?.id === "snippet_groups") {
+                // Only cache the document containing the snippets
+                domParserCache.set(html, res);
+                return res.cloneNode(true);
+            }
+            return res;
+        },
+    });
 }
 
 /**
@@ -141,6 +163,10 @@ export async function setupWebsiteBuilder(
         resolveEditAssetsLoaded = () => resolve();
     });
 
+    onRpc("/website/get_translated_elements", () => getTranslatedElements());
+
+    patchDOMParser();
+
     patchWithCleanup(WebsiteBuilderClientAction.prototype, {
         setIframeLoaded() {
             super.setIframeLoaded();
@@ -148,6 +174,13 @@ export async function setupWebsiteBuilder(
             originalIframeLoaded = this.iframeLoaded;
             this.iframeLoaded = iframeLoaded;
         },
+        // Override for Firefox. Chrome doesn't load the initial iframe and
+        // never goes through this method. As Firefox does, it means it re-
+        // assigns `this.publicRootReady` to a deferred that is never resolved
+        // in tests, which prevents any Hoot builder test from working.
+        // Reimplement this method the day interactions within the iframe work
+        // with Hoot.
+        preparePublicRootReady() {},
         async loadAssetsEditBundle() {
             // To instantiate interactions in the iframe test we need to load
             // the frontend bundle in it. The problem is that Hoot does not have
@@ -200,7 +233,7 @@ export async function setupWebsiteBuilder(
 
     let lastUpdatePromise;
     const waitSidebarUpdated = async () => {
-        await editor.shared.operation.next();
+        await revertPreview(editor);
         // The tick ensures that lastUpdatePromise has correctly been assigned
         await tick();
         await lastUpdatePromise;
@@ -395,6 +428,7 @@ export async function waitForSnippetDialog() {
  * @param {string | string[]} snippetName
  */
 export async function setupWebsiteBuilderWithSnippet(snippetName, options = {}) {
+    patchDOMParser();
     mockService("website", {
         get currentWebsite() {
             return {
@@ -423,7 +457,16 @@ export async function setupWebsiteBuilderWithSnippet(snippetName, options = {}) 
 export async function getStructureSnippet(snippetName) {
     const html = await getWebsiteSnippets();
     const snippetsDocument = new DOMParser().parseFromString(html, "text/html");
-    return snippetsDocument.querySelector(`[data-snippet=${snippetName}]`).cloneNode(true);
+    const processors = registry.category("html_builder.snippetsPreprocessor").getAll();
+    for (const processor of Object.values(processors)) {
+        processor("website.snippets", snippetsDocument);
+    }
+    const snippetEl = snippetsDocument.querySelector(
+        `[data-snippet=${snippetName}]:not([data-snippet] [data-snippet])`
+    );
+    const el = snippetEl.cloneNode(true);
+    el.dataset.name = snippetEl.parentElement.getAttribute("name");
+    return el;
 }
 
 export async function insertStructureSnippet(editor, snippetName) {

@@ -378,7 +378,7 @@ class HrEmployee(models.Model):
             ('company_id', 'in', self.env.companies.ids),
             '|',
             ('resource_calendar_id', '=', False),
-            ('resource_calendar_id', '=', self.resource_calendar_id.id),
+            ('resource_calendar_id', 'in', self.resource_calendar_id.ids),
         ]
 
         if self.job_id:
@@ -523,7 +523,11 @@ class HrEmployee(models.Model):
                     leave_duration = leave[leave_duration_field]
                     skip_excess = False
 
-                    if sorted_leave_allocations.filtered(lambda alloc: alloc.allocation_type == 'accrual') and leave.date_from.date() > target_date:
+                    if leave.date_from.date() > target_date and sorted_leave_allocations.filtered(lambda a:
+                        a.allocation_type == 'accrual' and
+                        (not a.date_to or a.date_to >= target_date) and
+                        a.date_from <= leave.date_to.date()
+                    ):
                         to_recheck_leaves_per_leave_type[employee][leave_type]['to_recheck_leaves'] |= leave
                         skip_excess = True
                         continue

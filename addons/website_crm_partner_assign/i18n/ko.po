@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-07 18:37+0000\n"
-"PO-Revision-Date: 2025-11-08 18:02+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
+"PO-Revision-Date: 2025-12-11 06:44+0000\n"
+"Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
 "website_crm_partner_assign/ko/>\n"
 "Language: ko\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website_crm_partner_assign
 #: model:ir.model.fields,field_description:website_crm_partner_assign.field_crm_partner_report_assign__nbr_opportunities
@@ -58,8 +58,8 @@ msgid ""
 "<i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Open map\" "
 "title=\"Open map\"/>"
 msgstr ""
-"<i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"지도 열기\" title="
-"\"지도 열기\"/>"
+"<i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"지도 열기\" "
+"title=\"지도 열기\"/>"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
@@ -108,8 +108,8 @@ msgid ""
 "                                                    </span>"
 msgstr ""
 "<span class=\"input-group-text o_input_group_date_icon\">\n"
-"                                                        <span class="
-"\"fa fa-calendar\" role=\"img\" aria-label=\"캘린더\" title=\"캘린더\"/>\n"
+"                                                        <span class=\"fa fa-"
+"calendar\" role=\"img\" aria-label=\"캘린더\" title=\"캘린더\"/>\n"
 "                                                    </span>"
 
 #. module: website_crm_partner_assign
@@ -121,8 +121,8 @@ msgid ""
 "                                                    </span>"
 msgstr ""
 "<span class=\"input-group-text o_input_group_date_icon\">\n"
-"                                                        <span class="
-"\"fa fa-calendar\" role=\"img\" aria-label=\"캘린더\"/>\n"
+"                                                        <span class=\"fa fa-"
+"calendar\" role=\"img\" aria-label=\"캘린더\"/>\n"
 "                                                    </span>"
 
 #. module: website_crm_partner_assign
@@ -138,8 +138,8 @@ msgid ""
 "invisible=\"partner_latitude &gt;= 0\">S </span>"
 msgstr ""
 "<span class=\"opacity-50\" invisible=\"partner_latitude &lt;= 0\">N </span>\n"
-"                                    <span class=\"opacity-50\" invisible="
-"\"partner_latitude &gt;= 0\">S </span>"
+"                                    <span class=\"opacity-50\" "
+"invisible=\"partner_latitude &gt;= 0\">S </span>"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.view_crm_lead_opportunity_geo_assign_form
@@ -150,10 +150,10 @@ msgid ""
 "invisible=\"partner_longitude &gt;= 0\">W </span>\n"
 "                                    <span class=\"opacity-50 ps-1\">) </span>"
 msgstr ""
-"<span class=\"opacity-50\" invisible=\"partner_longitude &lt;= 0\">E </span>"
-"\n"
-"                                    <span class=\"opacity-50\" invisible="
-"\"partner_longitude &gt;= 0\">W </span>\n"
+"<span class=\"opacity-50\" invisible=\"partner_longitude &lt;= 0\">E </"
+"span>\n"
+"                                    <span class=\"opacity-50\" "
+"invisible=\"partner_longitude &gt;= 0\">W </span>\n"
 "                                    <span class=\"opacity-50 ps-1\">) </span>"
 
 #. module: website_crm_partner_assign
@@ -725,7 +725,8 @@ msgstr "고객:"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.layout
 msgid "DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL RESELLERS"
-msgstr "빌딩 블록을 여기로 끌어다 놓아 모든 리셀러에서 사용할 수 있도록 합니다."
+msgstr ""
+"빌딩 블록을 여기로 끌어다 놓아 모든 리셀러에서 사용할 수 있도록 합니다."
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_leads
@@ -832,7 +833,7 @@ msgstr "필터"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index
 msgid "Find a reseller"
-msgstr "리셀러 찾기"
+msgstr "국내 파트너사 찾기:"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_home_lead
@@ -888,7 +889,7 @@ msgstr "경도"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.view_crm_lead_opportunity_geo_assign_form
 msgid "Geolocation"
-msgstr "위치정보"
+msgstr "위치 정보"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.crm_lead_merge_summary_inherit_partner_assign
@@ -1164,8 +1165,9 @@ msgstr "다음 필드를 업데이트할 수 없습니다: %s."
 msgid ""
 "Only users with commercial partner which is a parent of the assigned partner "
 "can edit this lead."
-msgstr "지정된 파트너 상위 조직인 상업적 파트너가 있는 사용자만 해당 영업제안을 "
-"수정할 수 있습니다."
+msgstr ""
+"지정된 파트너 상위 조직인 상업적 파트너가 있는 사용자만 해당 영업제안을 수정"
+"할 수 있습니다."
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index_filter_by_industry
@@ -1187,7 +1189,7 @@ msgstr "영업기회 할당 분석"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunities
 msgid "Opportunity"
-msgstr "영업 기회"
+msgstr "영업기회"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
@@ -1198,7 +1200,7 @@ msgstr "영업기회 -"
 #: model:ir.model.fields,field_description:website_crm_partner_assign.field_crm_partner_report_assign__partner_id
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.view_report_crm_partner_assign_filter
 msgid "Partner"
-msgstr "협력사"
+msgstr "파트너"
 
 #. module: website_crm_partner_assign
 #: model:ir.model,name:website_crm_partner_assign.model_res_partner_activation
@@ -1304,7 +1306,7 @@ msgstr "계획된 수익"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index
 msgid "Please check back soon."
-msgstr ""
+msgstr "잠시 후 다시 확인하세요."
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
@@ -1322,7 +1324,7 @@ msgstr "확률"
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_lead
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
 msgid "Rating"
-msgstr "평가"
+msgstr "평점"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
@@ -1365,7 +1367,7 @@ msgstr "참조"
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.layout
 msgid "Resellers"
-msgstr "대리점"
+msgstr "리셀러"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_lead
@@ -1375,7 +1377,7 @@ msgstr "판매 팀:"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.view_report_crm_partner_assign_filter
 msgid "Salesperson"
-msgstr "영업사원"
+msgstr "영업 담당자"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_lead
@@ -1632,7 +1634,7 @@ msgstr "activity_ids"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
 msgid "at"
-msgstr "at"
+msgstr "-"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index
@@ -1652,7 +1654,7 @@ msgstr "경도"
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.portal_my_opportunity
 msgid "on"
-msgstr "있음"
+msgstr "-"
 
 #. module: website_crm_partner_assign
 #: model_terms:ir.ui.view,arch_db:website_crm_partner_assign.index

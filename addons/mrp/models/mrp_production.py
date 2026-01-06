@@ -399,7 +399,15 @@ class MrpProduction(models.Model):
         # Force to prefetch more than 1000 by 1000
         all_raw_moves._fields['forecast_availability'].compute_value(all_raw_moves)
         for production in productions:
-            if any(move.product_id.uom_id.compare(move.forecast_availability, 0 if move.state == 'draft' else move.product_qty) == -1 for move in production.move_raw_ids):
+            if any(
+                move.product_id
+                and move.product_id.uom_id.compare(
+                    move.forecast_availability,
+                    0 if move.state == 'draft' else move.product_qty,
+                ) == -1
+                for move in production.move_raw_ids
+            ):
+
                 production.components_availability = _('Not Available')
                 production.components_availability_state = 'unavailable'
             else:
@@ -654,7 +662,17 @@ class MrpProduction(models.Model):
             if production.state in ('draft', 'done', 'cancel'):
                 production.reservation_state = False
                 continue
-            relevant_move_state = production.move_raw_ids.filtered(lambda m: not (m.picked or m.product_uom.is_zero(m.product_uom_qty)))._get_relevant_state_among_moves()
+            relevant_move_state = production.move_raw_ids.filtered(
+                lambda m: (
+                    m.product_id
+                    and not (
+                        m.picked
+                        or m.product_uom.is_zero(
+                            m.product_uom_qty,
+                        )
+                    )
+                )
+            )._get_relevant_state_among_moves()
             # Compute reservation state according to its component's moves.
             if relevant_move_state == 'partially_available':
                 if production.workorder_ids.operation_id and production.bom_id.ready_to_produce == 'asap':
@@ -935,6 +953,8 @@ class MrpProduction(models.Model):
                 raise UserError(_("You cannot set more than 1 lot"))
 
     def write(self, vals):
+        if 'product_id' in vals and self.state != 'draft':
+            vals.pop('product_id')
         if 'move_byproduct_ids' in vals and 'move_finished_ids' not in vals:
             vals['move_finished_ids'] = vals.get('move_finished_ids', []) + vals['move_byproduct_ids']
             del vals['move_byproduct_ids']
@@ -1786,7 +1806,8 @@ class MrpProduction(models.Model):
             if finish_moves:
                 production._log_downside_manufactured_quantity({finish_move: (production.product_uom_qty, 0.0) for finish_move in finish_moves}, cancel=True)
 
-        self.workorder_ids.filtered(lambda x: x.state not in ['done', 'cancel']).action_cancel()
+        if self._has_workorders():
+            self.workorder_ids.filtered(lambda x: x.state not in ['done', 'cancel']).action_cancel()
         finish_moves = self.move_finished_ids.filtered(lambda x: x.state not in ('done', 'cancel'))
         raw_moves = self.move_raw_ids.filtered(lambda x: x.state not in ('done', 'cancel'))
         (finish_moves | raw_moves).with_context(skip_mo_check=True)._action_cancel()
@@ -1810,7 +1831,9 @@ class MrpProduction(models.Model):
         # However, if the user clicks on 'Cancel', it is expected that the MO is either done or
         # canceled. If the MO is still in progress at this point, it means that the move raws
         # are either all done or a mix of done / canceled => the MO should be done.
-        self.filtered(lambda p: p.state not in ['done', 'cancel'] and p.bom_id.consumption == 'flexible').write({'state': 'done'})
+        mos_to_mark_as_done = self.filtered(lambda p: p.state not in ['done', 'cancel'] and p.bom_id.consumption == 'flexible')
+        if mos_to_mark_as_done:
+            mos_to_mark_as_done.write({'state': 'done'})
 
         return True
 
@@ -2938,6 +2961,21 @@ class MrpProduction(models.Model):
             clean_action(action, self.env)
             return action
 
+    def _autoprint_mass_generated_lots(self):
+        actions = []
+        productions_to_print = self.filtered(lambda p: p.picking_type_id.auto_print_generated_mrp_lot)
+        productions_by_print_formats = productions_to_print.grouped(lambda p: p.picking_type_id.generated_mrp_lot_label_to_print)
+        for print_format in productions_to_print.picking_type_id.mapped('generated_mrp_lot_label_to_print'):
+            grouped_productions = productions_by_print_formats.get(print_format)
+            lots_to_print = grouped_productions.mapped('lot_producing_ids')
+            if print_format == 'pdf':
+                action = self.env.ref("stock.action_report_lot_label").report_action(lots_to_print.ids, config=False)
+            elif print_format == 'zpl':
+                action = self.env.ref("stock.label_lot_template").report_action(lots_to_print.ids, config=False)
+            clean_action(action, self.env)
+            actions.append(action)
+        return actions
+
     def _prepare_finished_extra_vals(self):
         self.ensure_one()
         return {}
@@ -3029,6 +3067,9 @@ class MrpProduction(models.Model):
         lines = self[child_field].filtered(lambda line: line.product_id.id in product_ids)
         return lines.grouped(lambda line: line.product_id)
 
+    def _get_product_catalog_domain(self):
+        return super()._get_product_catalog_domain() & Domain('type', '=', 'consu')
+
     def _update_order_line_info(self, product_id, quantity, *, child_field=False, **kwargs):
         if not child_field:
             return 0
@@ -3105,12 +3146,14 @@ class MrpProduction(models.Model):
             res = OrderedSet(topological_sort(self.fields_get(res, ('depends'))))
         return res
 
+    # TODO: rename the parameter from reference to references in master for improved readability
     def _add_reference(self, reference):
-        """ link the given reference to the list of references. """
+        """ link the given references to the list of references. """
         self.ensure_one()
-        self.reference_ids = [Command.link(reference.id)]
+        self.reference_ids = [Command.link(stock_reference.id) for stock_reference in reference]
 
+    # TODO: rename the parameter from reference to references in master for improved readability
     def _remove_reference(self, reference):
-        """ remove the given reference to the list of references. """
+        """ remove the given references from the list of references. """
         self.ensure_one()
-        self.reference_ids = [Command.unlink(reference.id)]
+        self.reference_ids = [Command.unlink(stock_reference.id) for stock_reference in reference]

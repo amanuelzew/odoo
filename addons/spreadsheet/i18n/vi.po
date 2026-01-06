@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-07 18:37+0000\n"
-"PO-Revision-Date: 2025-11-14 02:13+0000\n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
+"PO-Revision-Date: 2025-12-04 17:51+0000\n"
 "Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
 "spreadsheet/vi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -318,6 +318,8 @@ msgid ""
 "0 = first match, 1 = all matches as an array, 2 = capturing groups from the "
 "first match as an array."
 msgstr ""
+"0 = kết quả khớp đầu tiên, 1 = tất cả kết quả khớp dưới dạng mảng, 2 = các "
+"nhóm nhận được từ kết quả khớp đầu tiên dưới dạng mảng."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -684,6 +686,8 @@ msgid ""
 "Add a chart to the carousel. You can also add a chart by dragging and "
 "dropping it over the carousel figure."
 msgstr ""
+"Thêm biểu đồ vào băng chuyền. Bạn cũng có thể thêm biểu đồ bằng cách kéo và "
+"thả nó lên hình băng chuyền."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -4826,6 +4830,8 @@ msgid ""
 "equal to the \n"
 "          number of rows of the second matrix (%s)."
 msgstr ""
+"Trong [[FUNCTION_NAME]], số cột của ma trận đầu tiên (%s) phải bằng\n"
+"số hàng của ma trận thứ hai (%s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -5116,8 +5122,8 @@ msgid ""
 "Invalid number of arguments for the %(functionName)s function. Expected %"
 "(maxArgPossible)s maximum, but got %(nbrArgSupplied)s instead."
 msgstr ""
-"Số đối số không hợp lệ cho hàm %(functionName)s. Cần tối đa là "
-"%(maxArgPossible)s, nhưng thay vào đó đã nhận được %(nbrArgSupplied)s."
+"Số đối số không hợp lệ cho hàm %(functionName)s. Cần tối đa là %"
+"(maxArgPossible)s, nhưng thay vào đó đã nhận được %(nbrArgSupplied)s."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -5126,8 +5132,8 @@ msgid ""
 "Invalid number of arguments for the %(functionName)s function. Expected %"
 "(minArgRequired)s minimum, but got %(nbrArgSupplied)s instead."
 msgstr ""
-"Số đối số không hợp lệ cho hàm %(functionName)s. Cần tối thiểu là "
-"%(minArgRequired)s, nhưng thay vào đó đã nhận được %(nbrArgSupplied)s."
+"Số đối số không hợp lệ cho hàm %(functionName)s. Cần tối thiểu là %"
+"(minArgRequired)s, nhưng thay vào đó đã nhận được %(nbrArgSupplied)s."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -5138,8 +5144,8 @@ msgid ""
 "(nbrArgOptional)s optional. Got %(nbrValueRemaining)s too many."
 msgstr ""
 "Số lượng đối số không hợp lệ cho hàm %(functionName)s. Các đối số lặp lại "
-"cần được cung cấp theo nhóm %(nbrArgRepeating)s, với tối đa %(nbrArgOptional)"
-"s đối số tùy chọn. Đã vượt quá %(nbrValueRemaining)s đối số."
+"cần được cung cấp theo nhóm %(nbrArgRepeating)s, với tối đa %"
+"(nbrArgOptional)s đối số tùy chọn. Đã vượt quá %(nbrValueRemaining)s đối số."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -7356,6 +7362,9 @@ msgid ""
 "plain text, and \"v\" (for value) if the cell contains any other type of "
 "data."
 msgstr ""
+"Trả về loại dữ liệu trong ô được tham chiếu. Các giá trị sau được trả về: "
+"\"b\" cho ô trống, \"l\" (cho nhãn) nếu ô chứa văn bản thuần túy, và \"v\" "
+"(cho giá trị) nếu ô chứa bất kỳ loại dữ liệu nào khác."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9096,6 +9105,8 @@ msgid ""
 "The desired instance of the delimiter after which we extract the text. A "
 "negative number searches from the end."
 msgstr ""
+"Vị trí mong muốn của dấu phân cách mà sau đó chúng ta sẽ trích xuất văn bản. "
+"Một số âm sẽ tìm từ phía cuối."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9104,6 +9115,8 @@ msgid ""
 "The desired instance of the delimiter before which we extract the text. A "
 "negative number searches from the end."
 msgstr ""
+"Vị trí mong muốn của dấu phân cách mà trước đó chúng ta sẽ trích xuất văn "
+"bản. Một số âm sẽ tìm từ phía cuối."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9505,7 +9518,8 @@ msgstr "Giá trị đầu tiên."
 msgid ""
 "The first_period (%(first)s) must be smaller or equal to the last_period (%"
 "(last)s)."
-msgstr "first_period (%(first)s) phải nhỏ hơn hoặc bằng last_period (%(last)s)."
+msgstr ""
+"first_period (%(first)s) phải nhỏ hơn hoặc bằng last_period (%(last)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9790,8 +9804,8 @@ msgid ""
 "The last_period (%(last)s) must be smaller or equal to the number_of_periods "
 "(%(nPeriods)s)."
 msgstr ""
-"last_period (%(last)s) phải nhỏ hơn hoặc bằng number_of_periods "
-"(%(nPeriods)s)."
+"last_period (%(last)s) phải nhỏ hơn hoặc bằng number_of_periods (%"
+"(nPeriods)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -9848,8 +9862,8 @@ msgid ""
 "The maturity (%(maturity)s) must be strictly greater than the settlement (%"
 "(settlement)s)."
 msgstr ""
-"Thời gian đáo hạn (%(maturity)s) phải lớn hơn thời gian thanh toán "
-"(%(settlement)s)."
+"Thời gian đáo hạn (%(maturity)s) phải lớn hơn thời gian thanh toán (%"
+"(settlement)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -10116,6 +10130,8 @@ msgid ""
 "The number of days between start_date and end_date, assuming start_date and "
 "end_date were no more than one year apart"
 msgstr ""
+"Số ngày giữa start_date và end_date, giả sử start_date và end_date không "
+"cách nhau quá một năm"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -10610,8 +10626,8 @@ msgid ""
 "The purchase_date (%(purchaseDate)s) must be before the first_period_end (%"
 "(firstPeriodEnd)s)."
 msgstr ""
-"Giá trị purchase_date (%(purchaseDate)s) phải trước first_period_end "
-"(%(firstPeriodEnd)s)."
+"Giá trị purchase_date (%(purchaseDate)s) phải trước first_period_end (%"
+"(firstPeriodEnd)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11030,7 +11046,6 @@ msgstr ""
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-#, fuzzy
 msgid ""
 "The search method is a number 1, 0 or -1 indicating which value to return. 1 "
 "finds the largest value less than or equal to search_key when range is "
@@ -11105,8 +11120,8 @@ msgid ""
 "The settlement date (%(settlement)s) must at most one year after the "
 "maturity date (%(maturity)s)."
 msgstr ""
-"Ngày thanh toán (%(settlement)s) muộn nhất là một năm sau ngày đáo hạn "
-"(%(maturity)s)."
+"Ngày thanh toán (%(settlement)s) muộn nhất là một năm sau ngày đáo hạn (%"
+"(maturity)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11115,8 +11130,8 @@ msgid ""
 "The settlement date (%(settlement)s) must be greater or equal to the issue "
 "date (%(issue)s)."
 msgstr ""
-"Ngày thanh toán (%(settlement)s) phải lớn hơn hoặc bằng ngày phát hành "
-"(%(issue)s)."
+"Ngày thanh toán (%(settlement)s) phải lớn hơn hoặc bằng ngày phát hành (%"
+"(issue)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11125,8 +11140,8 @@ msgid ""
 "The settlement date (%(settlement)s) must be strictly greater than the issue "
 "date (%(issue)s)."
 msgstr ""
-"Ngày thanh toán (%(settlement)s) bắt buộc phải lớn hơn ngày phát hành "
-"(%(issue)s)."
+"Ngày thanh toán (%(settlement)s) bắt buộc phải lớn hơn ngày phát hành (%"
+"(issue)s)."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -12175,6 +12190,8 @@ msgid ""
 "This formula has over 1000 parts. It can't be processed properly, consider "
 "splitting it into multiple cells"
 msgstr ""
+"Công thức này có hơn 1000 phần. Hệ thống không thể xử lý chính xác, nên hãy "
+"cân nhắc chia công thức này thành nhiều ô"
 
 #. module: spreadsheet
 #. odoo-javascript

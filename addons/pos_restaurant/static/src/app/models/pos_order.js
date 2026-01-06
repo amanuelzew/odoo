@@ -12,12 +12,15 @@ patch(PosOrder.prototype, {
     initState() {
         super.initState();
         this.uiState.selected_course_uuid = undefined;
+        if (this.config.module_pos_restaurant) {
+            this.uiState.mappingOrderlinesUuid = {};
+        }
     },
     getCustomerCount() {
         return this.customer_count;
     },
     setCustomerCount(count) {
-        this.customer_count = Math.max(count, 0);
+        this.customer_count = Math.max(count, 1);
     },
     getTable() {
         return this.table_id;

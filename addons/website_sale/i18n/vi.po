@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-07 18:35+0000\n"
-"PO-Revision-Date: 2025-11-11 08:59+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-12-03 12:34+0000\n"
 "Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
 "website_sale/vi/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -77,7 +77,6 @@ msgstr "(Bao gồm thuế)"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.empty_cart_svg
-#, fuzzy
 msgid ""
 ".heartBeat {\n"
 "                    animation: heartBeat 1.3s ease-in-out forwards;\n"
@@ -330,8 +329,8 @@ msgid ""
 "<i class=\"oi oi-chevron-left oe_unmovable border bg-white text-900\" "
 "role=\"img\" aria-label=\"Previous\" title=\"Previous\"/>"
 msgstr ""
-"<i class=\"oi oi-chevron-left oe_unmovable border bg-white text-900\" role="
-"\"img\" aria-label=\"Trước\" title=\"Trước\"/>"
+"<i class=\"oi oi-chevron-left oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"Trước\" title=\"Trước\"/>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.shop_product_carousel
@@ -339,8 +338,8 @@ msgid ""
 "<i class=\"oi oi-chevron-right oe_unmovable border bg-white text-900\" "
 "role=\"img\" aria-label=\"Next\" title=\"Next\"/>"
 msgstr ""
-"<i class=\"oi oi-chevron-right oe_unmovable border bg-white text-900\" role="
-"\"img\" aria-label=\"Tiếp\" title=\"Tiếp\"/>"
+"<i class=\"oi oi-chevron-right oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"Tiếp\" title=\"Tiếp\"/>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.billing_address_list
@@ -387,8 +386,8 @@ msgid ""
 "        </small>"
 msgstr ""
 "<small class=\"text-muted mb-0\">\n"
-"            <a href=\"/terms\" class=\"o_translate_inline text-muted\""
-"><u>Điều khoản và điều kiện</u></a><br/>\n"
+"            <a href=\"/terms\" class=\"o_translate_inline text-"
+"muted\"><u>Điều khoản và điều kiện</u></a><br/>\n"
 "            Đảm bảo hoàn tiền trong 30 ngày<br/>\n"
 "            Giao hàng: 2-3 ngày làm việc\n"
 "        </small>"
@@ -409,8 +408,8 @@ msgid ""
 msgstr ""
 "<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" "
 "data-oe-expression=\"data['price']\">\n"
-"                                                <span class="
-"\"oe_currency_value\">1.500,00</span>\n"
+"                                                <span "
+"class=\"oe_currency_value\">1.500,00</span>\n"
 "                                            </span>"
 
 #. module: website_sale
@@ -424,8 +423,8 @@ msgid ""
 msgstr ""
 "<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" "
 "data-oe-expression=\"data['price']\">\n"
-"                                                <span class="
-"\"oe_currency_value\">140,00</span>\n"
+"                                                <span "
+"class=\"oe_currency_value\">140,00</span>\n"
 "                                            </span>"
 
 #. module: website_sale
@@ -439,8 +438,8 @@ msgid ""
 msgstr ""
 "<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" "
 "data-oe-expression=\"data['price']\">\n"
-"                                                <span class="
-"\"oe_currency_value\">33,00</span>\n"
+"                                                <span "
+"class=\"oe_currency_value\">33,00</span>\n"
 "                                            </span>"
 
 #. module: website_sale
@@ -454,8 +453,8 @@ msgid ""
 msgstr ""
 "<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" "
 "data-oe-expression=\"data['price']\">\n"
-"                                                <span class="
-"\"oe_currency_value\">750,00</span>\n"
+"                                                <span "
+"class=\"oe_currency_value\">750,00</span>\n"
 "                                            </span>"
 
 #. module: website_sale
@@ -493,6 +492,22 @@ msgid ""
 "animable\"/> Fast Shipping\n"
 "                                </span>"
 msgstr ""
+"<span class=\"s_badge badge text-bg-primary o_animable\" data-"
+"name=\"Badge\">\n"
+"                                    <i class=\"fa fa-dollar fa-fw o_not-"
+"animable\"/> Giá rẻ\n"
+"                               </span>\n"
+"                                <span class=\"s_badge badge text-bg-primary "
+"o_animable\" data-name=\"Badge\"> \n"
+"                                   <i class=\"fa fa-shopping-basket fa-fw "
+"o_not-animable\"/> \n"
+"                                    Đổi trả dễ dàng\n"
+"                               </span>\n"
+"                                <span class=\"s_badge badge text-bg-primary "
+"o_animable\" data-name=\"Badge\"> \n"
+"                                   <i class=\"fa fa-truck fa-fw o_not-"
+"animable\"/> Giao hàng nhanh    \n"
+"</span>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.extra_info
@@ -567,8 +582,8 @@ msgstr ""
 #: model_terms:web_tour.tour,rainbow_man_message:website_sale.test_01_admin_shop_tour
 msgid "<span><b>Good job!</b> You went through all steps of this tour.</span>"
 msgstr ""
-"<span><b>Tốt lắm!</b> Bạn đã xem qua tất cả các bước của tour hướng dẫn "
-"này.</span>"
+"<span><b>Tốt lắm!</b> Bạn đã xem qua tất cả các bước của tour hướng dẫn này."
+"</span>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
@@ -619,9 +634,9 @@ msgid ""
 "cart into current cart."
 msgstr ""
 "<strong>\n"
-"                                <a class=\"o_translate_inline\" t-attf-href="
-"\"/shop/cart/?id={{id}}&amp;access_token={{access_token}}&amp;revive_method="
-"merge\">Nhấp vào đây</a>\n"
+"                                <a class=\"o_translate_inline\" t-attf-"
+"href=\"/shop/cart/?id={{id}}&amp;access_token={{access_token}}"
+"&amp;revive_method=merge\">Nhấp vào đây</a>\n"
 "                            </strong> nếu bạn muốn gộp giỏ hàng trước đó vào "
 "giỏ hàng hiện tại."
 
@@ -636,9 +651,9 @@ msgid ""
 "cart. Your current cart will be replaced with your previous cart."
 msgstr ""
 "<strong>\n"
-"                                <a class=\"o_translate_inline\" t-attf-href="
-"\"/shop/cart/?id={{id}}&amp;access_token={{access_token}}&amp;revive_method="
-"squash\">Nhấn vào đây</a>\n"
+"                                <a class=\"o_translate_inline\" t-attf-"
+"href=\"/shop/cart/?id={{id}}&amp;access_token={{access_token}}"
+"&amp;revive_method=squash\">Nhấn vào đây</a>\n"
 "                            </strong> nếu bạn muốn khôi phục giỏ hàng trước "
 "đó của mình. Giỏ hàng hiện tại của bạn sẽ được thay thế bằng giỏ hàng trước "
 "đó."
@@ -666,7 +681,6 @@ msgstr "<strong>Cảnh báo!</strong>"
 
 #. module: website_sale
 #: model:mail.template,body_html:website_sale.mail_template_sale_cart_recovery
-#, fuzzy
 msgid ""
 "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" "
 "style=\"padding: 0px; background-color: white; color: #454748; border-"
@@ -1340,6 +1354,11 @@ msgid ""
 "minimum purchase amount, period). Rewards can be discounts (% or "
 "amount)                            or free products."
 msgstr ""
+"Tăng doanh số của bạn với nhiều loại chương trình: Phiếu giảm giá, Khuyến "
+"mãi, Thẻ quà tặng, Chương trình khách hàng thân thiết. Các điều kiện cụ thể "
+"có thể được thiết lập (sản phẩm, khách hàng, số tiền mua tối thiểu, thời "
+"gian). Phần thưởng có thể là chiết khấu (% hoặc số tiền) hoặc sản phẩm miễn "
+"phí."
 
 #. module: website_sale
 #. odoo-javascript
@@ -1887,12 +1906,12 @@ msgstr "Liên hệ"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
 msgid "Contact Us"
-msgstr "Liên hệ với chúng tôi"
+msgstr "Liên hệ"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__contact_us_button_url
 msgid "Contact Us Button URL"
-msgstr "URL nút Liên hệ với chúng tôi"
+msgstr "URL nút Liên hệ"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.template_footer_website_sale
@@ -2120,6 +2139,11 @@ msgid ""
 "- New: Applied based on the New period you will define.\n"
 "- Out Of Stock: Applied when the product is out of stock."
 msgstr ""
+"Xác định cách ruy băng này được gán cho sản phẩm:\n"
+"- Thủ công: Bạn gán ruy băng cho sản phẩm một cách thủ công.\n"
+"- Khuyến mại: Được áp dụng khi sản phẩm đang được khuyến mại.\n"
+"- Mới: Được áp dụng dựa trên khoảng thời gian \"Mới\" mà bạn sẽ xác định.\n"
+"- Hết hàng: Được áp dụng khi sản phẩm hết hàng."
 
 #. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_product_ribbon__style
@@ -2128,6 +2152,9 @@ msgid ""
 "- Ribbon: Shows a ribbon banner on the product image.\n"
 "- Badge: Shows a small badge label on the product image."
 msgstr ""
+"Xác định kiểu hiển thị:\n"
+"- Ruy-băng: Hiển thị ruy-băng trên hình ảnh sản phẩm.\n"
+"- Nhãn: Hiển thị nhãn nhỏ trên hình ảnh sản phẩm."
 
 #. module: website_sale
 #. odoo-javascript
@@ -3025,9 +3052,7 @@ msgstr "Nếu chọn, một số tin nhắn sẽ có lỗi gửi."
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "If product price equals 0, replace 'Add to Cart' by 'Contact us'."
-msgstr ""
-"Nếu giá sản phẩm bằng 0, thay thế 'Thêm vào giỏ hàng' bằng 'Liên hệ với "
-"chúng tôi'."
+msgstr "Nếu giá sản phẩm bằng 0, thay thế 'Thêm vào giỏ hàng' bằng 'Liên hệ'."
 
 #. module: website_sale
 #: model:mail.template,description:website_sale.mail_template_sale_cart_recovery
@@ -5336,6 +5361,9 @@ msgid ""
 "set, the default website pricelist will be used.\n"
 "Note that the pricelist must be selectable on the website."
 msgstr ""
+"Chỉ định một bảng giá để bản địa hóa trang chủ với một loại tiền tệ cụ thể. "
+"Nếu không được thiết lập, bảng giá mặc định của trang web sẽ được sử dụng.\n"
+"Lưu ý rằng bảng giá này phải có thể chọn được trên trang web."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_product_normal_website_form_view
@@ -5553,6 +5581,9 @@ msgid ""
 "be fully updated. Consider refining the feed by adjusting the product "
 "categories."
 msgstr ""
+"Trang chủ %(feed_name)s chứa hơn %(limit)s sản phẩm, có thể chưa được cập "
+"nhật đầy đủ. Hãy cân nhắc tinh chỉnh trang chủ bằng cách điều chỉnh các danh "
+"mục sản phẩm."
 
 #. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_product_product__website_url
@@ -5601,6 +5632,8 @@ msgid ""
 "product                            created but not of products already "
 "existing."
 msgstr ""
+"Chế độ được chọn ở đây sẽ áp dụng làm chính sách lập hóa đơn cho bất kỳ sản "
+"phẩm mới nào được tạo, nhưng không áp dụng cho các sản phẩm đã tồn tại."
 
 #. module: website_sale
 #. odoo-python
@@ -5777,6 +5810,9 @@ msgid ""
 "ones                            in list view and click on 'Portal Access "
 "Management' option in the                            dropdown menu *Action*."
 msgstr ""
+"Để gửi lời mời ở chế độ B2B, mở một liên hệ hoặc chọn nhiều liên hệ trong "
+"chế độ xem danh sách và nhấp vào tùy chọn 'Quản lý truy cập cổng thông tin' "
+"trong menu *Tác vụ* thả xuống."
 
 #. module: website_sale
 #. odoo-python

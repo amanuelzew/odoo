@@ -15,6 +15,8 @@ import { isBlock, closestBlock } from "@html_editor/utils/blocks";
 import { isHtmlContentSupported } from "@html_editor/core/selection_plugin";
 import { isBrowserFirefox } from "@web/core/browser/feature_detection";
 
+/** @typedef {import("@odoo/owl").Component} Component */
+/** @typedef {import("plugins").CSSSelector} CSSSelector */
 /**
  * @typedef {import("@html_editor/core/selection_plugin").EditorSelection} EditorSelection
  */
@@ -124,6 +126,19 @@ async function fetchAttachmentMetaData(url, ormService) {
  * @property { LinkPlugin['insertLink'] } insertLink
  */
 
+/**
+ * @typedef {((link: HTMLLinkElement) => boolean)[]} is_link_editable_predicates
+ * @typedef {((link: HTMLLinkElement) => boolean)[]} legit_empty_link_predicates
+ * @typedef {(() => boolean)[]} link_compatible_selection_predicates
+ * @typedef {CSSSelector[]} immutable_link_selectors
+ * @typedef {{
+ *      PopoverClass: Component;
+ *      isAvailable: (linkEl: HTMLLinkElement) => boolean;
+ *      getProps: (props) => props;
+ *  }[]} link_popovers
+ * @typedef {((linkEl: HTMLAnchorElement) => void)[]} create_link_handlers
+ */
+
 export class LinkPlugin extends Plugin {
     static id = "link";
     static dependencies = [
@@ -143,6 +158,7 @@ export class LinkPlugin extends Plugin {
     };
     // @phoenix @todo: do we want to have createLink and insertLink methods in link plugin?
     static shared = ["createLink", "insertLink", "getPathAsUrlCommand"];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: [
             {
@@ -677,7 +693,7 @@ export class LinkPlugin extends Plugin {
                     link.setAttribute("style", saveCustomStyle);
                 }
                 // Remove the current link (linkInDocument) if it has no content
-                if (cleanZWChars(link.innerText) === "" && !link.querySelector("img")) {
+                if (cleanZWChars(link.textContent) === "" && !link.querySelector("img")) {
                     const [anchorNode, anchorOffset] = rightPos(link);
                     // We force the cursor after the link before removing the link
                     // to ensure we don't lose the selection position.
@@ -860,6 +876,7 @@ export class LinkPlugin extends Plugin {
         }
         cursors.restore();
         this.linkInDocument = null;
+        this.dependencies.selection.focusEditable();
         this.dependencies.history.addStep();
     }
 

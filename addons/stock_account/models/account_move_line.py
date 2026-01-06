@@ -49,6 +49,8 @@ class AccountMoveLine(models.Model):
         return -price_unit if self.move_id.move_type == 'in_refund' else price_unit
 
     def _get_cogs_value(self):
+        """ Get the COGS price unit in the product's default unit of measure.
+        """
         self.ensure_one()
 
         if not self.product_id:
@@ -65,10 +67,20 @@ class AccountMoveLine(models.Model):
             return self.product_id.standard_price
 
         # FIFO
-        moves = self._get_stock_moves()
+        moves = self._get_stock_moves().filtered(lambda m: m.state == 'done')
         if not moves:
             return self.product_id._run_fifo(self.quantity)
-        return moves._get_price_unit()
+
+        price_unit = moves._get_price_unit()
+        valuation_account = self.product_id.product_tmpl_id.get_product_accounts(fiscal_pos=self.move_id.fiscal_position_id)['stock_valuation']
+        posted_cogs_value = - sum(self.sale_line_ids.order_id.invoice_ids.line_ids.filtered(
+            lambda line: line.product_id == self.product_id and line.display_type == 'cogs' and line.account_id == valuation_account
+        ).mapped('balance'))
+        posted_cogs_qty = sum(self.sale_line_ids.order_id.invoice_ids.line_ids.filtered(
+            lambda line: line.product_id == self.product_id and line.display_type == 'cogs' and line.account_id == valuation_account
+        ).mapped('quantity'))
+        total_qty = posted_cogs_qty + self.quantity
+        return (price_unit * total_qty - posted_cogs_value) / self.quantity
 
     def _get_stock_moves(self):
         return self.env['stock.move']

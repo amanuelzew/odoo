@@ -9,13 +9,15 @@
 # Ryoko Tsuda <ryoko@quartile.co>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Junko Augias (juau)" <juau@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Yoshi Tashiro <tashiro@quartile.co>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:38+0000\n"
-"PO-Revision-Date: 2025-10-15 07:20+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-12-09 14:04+0000\n"
+"Last-Translator: Yoshi Tashiro <tashiro@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "delivery/ja/>\n"
 "Language: ja\n"
@@ -23,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: delivery
 #. odoo-python
@@ -537,7 +539,7 @@ msgstr "レートの取得と出荷の作成"
 #. module: delivery
 #: model:ir.model,name:delivery.model_ir_http
 msgid "HTTP Routing"
-msgstr ""
+msgstr "HTTPルーティング"
 
 #. module: delivery
 #: model:ir.model.fields,field_description:delivery.field_choose_delivery_carrier__id
@@ -702,7 +704,7 @@ msgstr "最大値"
 #. module: delivery
 #: model:ir.model,name:delivery.model_ir_module_module
 msgid "Module"
-msgstr ""
+msgstr "モジュール"
 
 #. module: delivery
 #: model:ir.model.fields,field_description:delivery.field_delivery_carrier__must_have_tag_ids
@@ -724,7 +726,7 @@ msgstr "新規プロバイダー"
 #. odoo-python
 #: code:addons/delivery/models/sale_order.py:0
 msgid "No pick-up points are available for this delivery address."
-msgstr "その配送先住所では利用できる集荷ポイントがありません。"
+msgstr "その配送先では利用できる集荷ポイントがありません。"
 
 #. module: delivery
 #. odoo-javascript

@@ -16,6 +16,9 @@ export class PosOrderAccounting extends Base {
     }
 
     triggerRecomputeAllPrices() {
+        if (!this._prices) {
+            return;
+        }
         this._prices.original = this._constructPriceData();
         this._prices.unit = this._constructPriceData({ baseLineOpts: { quantity: 1 } });
     }
@@ -143,7 +146,7 @@ export class PosOrderAccounting extends Base {
             this.payment_ids.reduce(function (sum, paymentLine) {
                 // Return lines are created after the sync, should not be taken into account in
                 // the paid amount otherwise, the change would be wrong.
-                if (paymentLine.isDone() && paymentLine.name !== "return") {
+                if (paymentLine.isDone() && !paymentLine.is_change) {
                     sum += paymentLine.getAmount();
                 }
                 return sum;
@@ -193,8 +196,8 @@ export class PosOrderAccounting extends Base {
         this.amount_total = this.currency.round(this.priceIncl);
         this.amount_return = this.change; // Already rounded by the getter
         this.lines.forEach((line) => {
-            line.price_subtotal = line.displayPriceUnit;
-            line.price_subtotal_incl = line.displayPrice;
+            line.price_subtotal = line.priceExcl;
+            line.price_subtotal_incl = line.priceIncl;
         });
     }
     /**

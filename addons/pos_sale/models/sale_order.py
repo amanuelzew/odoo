@@ -146,7 +146,7 @@ class SaleOrderLine(models.Model):
                     delivered_qties[sale_line] += pos_qty
         return delivered_qties
 
-    @api.depends('pos_order_line_ids.qty')
+    @api.depends('pos_order_line_ids.qty', 'pos_order_line_ids.order_id.state')
     def _compute_qty_invoiced(self):
         super()._compute_qty_invoiced()
 
@@ -155,7 +155,7 @@ class SaleOrderLine(models.Model):
         for sale_line in self:
             pos_lines = sale_line.sudo().pos_order_line_ids.filtered(lambda order_line: order_line.order_id.state not in ['cancel', 'draft'])
             invoiced_qties[sale_line] += sum((
-                self._convert_qty(self, pos_line.qty, 'p2s') for pos_line in pos_lines
+                self._convert_qty(sale_line, pos_line.qty, 'p2s') for pos_line in pos_lines
             ), 0)
         return invoiced_qties
 

@@ -165,7 +165,7 @@ class StockPackage(models.Model):
                     package.company_id = quants[0].company_id
             elif package.child_package_ids:
                 package.location_id = package.child_package_ids[0].location_id
-                if all(p.company_id == package.child_package_ids[0] for p in package.child_package_ids):
+                if all(p.company_id == package.child_package_ids[0].company_id for p in package.child_package_ids):
                     package.company_id = package.child_package_ids[0].company_id
 
     @api.depends('child_package_dest_ids')
@@ -317,10 +317,12 @@ class StockPackage(models.Model):
         """ Unpacks quants directly inside the container, and remove contained packages from this package.
         """
         self.child_package_ids.parent_package_id = False
-        self.quant_ids.move_quants(message=self.env._("Quantities unpacked"), unpack=True)
-        # Quant clean-up, mostly to avoid multiple quants of the same product. For example, unpack
-        # 2 packages of 50, then reserve 100 => a quant of -50 is created at transfer validation.
-        self.quant_ids._quant_tasks()
+        if self.quant_ids:
+            quants = self.quant_ids
+            self.quant_ids.move_quants(message=self.env._("Quantities unpacked"), unpack=True)
+            # Quant clean-up, mostly to avoid multiple quants of the same product. For example, unpack
+            # 2 packages of 50, then reserve 100 => a quant of -50 is created at transfer validation.
+            quants._quant_tasks()
 
     def action_add_to_picking(self):
         picking = self.env['stock.picking'].browse(self.env.context.get('picking_id'))
@@ -434,8 +436,16 @@ class StockPackage(models.Model):
         res = {}
         if picking_id:
             package_weights = defaultdict(float)
+            # If we check the weight of an ongoing package, we may need to check its current child dest as well to known their own weight.
+            children_by_dest_pack, all_pack_ids = self._get_all_children_package_dest_ids()
+            base_weight_per_package_group = self.env['stock.package']._read_group(
+                domain=[('id', 'in', all_pack_ids)],
+                groupby=['id', 'package_type_id.base_weight']
+            )
+            base_weight_per_package = {pack.id: weight for pack, weight in base_weight_per_package_group}
+
             res_groups = self.env['stock.move.line']._read_group(
-                [('result_package_id', 'child_of', self.ids), ('product_id', '!=', False), ('picking_id', '=', picking_id)],
+                [('result_package_id', 'in', all_pack_ids), ('product_id', '!=', False), ('picking_id', '=', picking_id)],
                 ['result_package_id', 'product_id', 'product_uom_id', 'quantity'],
                 ['__count'],
             )
@@ -449,7 +459,11 @@ class StockPackage(models.Model):
             weight = package.package_type_id.base_weight or 0.0
             if picking_id:
                 res[package] = weight + package_weights[package.id]
+                for child_id in children_by_dest_pack.get(package, []):
+                    res[package] += base_weight_per_package.get(child_id, 0) + package_weights.get(child_id, 0)
             else:
+                # Take the base_weight of every contained package, so we include package only containing packages
+                weight += sum(package.all_children_package_ids.mapped(lambda p: p.package_type_id.base_weight))
                 for quant in package.contained_quant_ids:
                     weight += quant.quantity * quant.product_id.weight
                 res[package] = weight

@@ -350,6 +350,8 @@ class MrpWorkcenter(models.Model):
         :rtype: tuple
         """
         self.ensure_one()
+        ICP = self.env['ir.config_parameter'].sudo()
+        max_planning_iterations = max(int(ICP.get_param('mrp.workcenter_max_planning_iterations', '50')), 1)
         resource = self.resource_id
         revert = to_timezone(start_datetime.tzinfo)
         start_datetime = localized(start_datetime)
@@ -364,7 +366,7 @@ class MrpWorkcenter(models.Model):
         now = localized(datetime.now())
         delta = timedelta(days=14)
         start_interval, stop_interval = None, None
-        for n in range(50):  # 50 * 14 = 700 days in advance (hardcoded)
+        for n in range(max_planning_iterations):  # 50 * 14 = 700 days in advance
             if forward:
                 date_start = start_datetime + delta * n
                 date_stop = date_start + delta
@@ -610,7 +612,6 @@ class MrpWorkcenterCapacity(models.Model):
     _name = 'mrp.workcenter.capacity'
     _description = 'Work Center Capacity'
     _check_company_auto = True
-    _order = 'workcenter_id, product_id nulls first,product_uom_id,id'
 
     def _default_time_start(self):
         workcenter_id = self.workcenter_id.id or self.env.context.get('default_workcenter_id')
@@ -622,8 +623,8 @@ class MrpWorkcenterCapacity(models.Model):
 
     workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center', required=True, index=True)
     product_id = fields.Many2one('product.product', string='Product')
-    product_uom_id = fields.Many2one('uom.uom', string='Unit', default=lambda self: self.env.ref('uom.product_uom_unit'),
-        compute="_compute_product_uom_id", store=True, readonly=False, required=True)
+    product_uom_id = fields.Many2one('uom.uom', string='Unit',
+        compute="_compute_product_uom_id", precompute=True, store=True, readonly=False, required=True)
     capacity = fields.Float('Capacity', help="Number of pieces that can be produced in parallel for this product or for all, depending on the unit.")
     time_start = fields.Float('Setup Time (minutes)', default=_default_time_start, help="Time in minutes for the setup.")
     time_stop = fields.Float('Cleanup Time (minutes)', default=_default_time_stop, help="Time in minutes for the cleaning.")

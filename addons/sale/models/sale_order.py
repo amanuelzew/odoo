@@ -218,7 +218,7 @@ class SaleOrder(models.Model):
         compute='_compute_team_id',
         store=True, readonly=False, precompute=True, ondelete="set null",
         change_default=True, check_company=True,  # Unrequired company
-        tracking=True,
+        tracking=True, index=True,
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")
 
     # Lines and line based computes
@@ -505,11 +505,14 @@ class SaleOrder(models.Model):
     def _default_team_id(self):
         return self.env.context.get('default_team_id', False) or self.team_id.id
 
+    def _get_priced_lines(self):
+        return self.order_line.filtered(lambda x: not x.display_type)
+
     @api.depends('order_line.price_subtotal', 'currency_id', 'company_id', 'payment_term_id')
     def _compute_amounts(self):
         AccountTax = self.env['account.tax']
         for order in self:
-            order_lines = order.order_line.filtered(lambda x: not x.display_type)
+            order_lines = order._get_priced_lines()
             base_lines = [line._prepare_base_line_for_taxes_computation() for line in order_lines]
             base_lines += order._add_base_lines_for_early_payment_discount()
             AccountTax._add_tax_details_in_base_lines(base_lines, order.company_id)
@@ -539,7 +542,7 @@ class SaleOrder(models.Model):
         ):
             percentage = self.payment_term_id.discount_percentage
             currency = self.currency_id or self.company_id.currency_id
-            for line in self.order_line.filtered(lambda x: not x.display_type):
+            for line in self._get_priced_lines():
                 line_amount_after_discount = (line.price_subtotal / 100) * percentage
                 epd_lines.append(self.env['account.tax']._prepare_base_line_for_taxes_computation(
                     record=self,
@@ -789,7 +792,7 @@ class SaleOrder(models.Model):
     def _compute_tax_totals(self):
         AccountTax = self.env['account.tax']
         for order in self:
-            order_lines = order.order_line.filtered(lambda x: not x.display_type)
+            order_lines = order._get_priced_lines()
             base_lines = [line._prepare_base_line_for_taxes_computation() for line in order_lines]
             base_lines += order._add_base_lines_for_early_payment_discount()
             AccountTax._add_tax_details_in_base_lines(base_lines, order.company_id)
@@ -921,10 +924,15 @@ class SaleOrder(models.Model):
     @api.onchange('order_line')
     def _onchange_order_line(self):
         for index, line in enumerate(self.order_line):
-            if line.product_type != 'combo':
-                continue
             combo_item_lines = line._get_linked_lines().filtered('combo_item_id')
-            if line.selected_combo_items:
+            if line.product_template_id.type != 'combo':
+                if combo_item_lines:
+                    # Delete any linked combo item lines if the line's product is no longer a combo
+                    # product.
+                    self.order_line = [
+                        Command.delete(linked_line.id) for linked_line in combo_item_lines
+                    ]
+            elif line.selected_combo_items:
                 selected_combo_items = json.loads(line.selected_combo_items)
                 if (
                     selected_combo_items
@@ -966,7 +974,11 @@ class SaleOrder(models.Model):
                 # Clear `selected_combo_items` to avoid applying the same changes multiple times.
                 line.selected_combo_items = False
                 self.order_line = delete_commands + create_commands + update_commands
-            elif combo_item_lines:
+            elif (
+                combo_item_lines
+                # Only update the combo item lines if the line's combo choices haven't changed.
+                and combo_item_lines.combo_item_id.combo_id == line.product_template_id.combo_ids
+            ):
                 combo_item_lines.update({
                     'product_uom_qty': line.product_uom_qty,
                     'discount': line.discount,
@@ -2195,6 +2207,15 @@ class SaleOrder(models.Model):
                 'product_uom_qty': quantity,
                 'sequence': self._get_new_line_sequence(child_field, section_id),
             })
+        else:  # quantity of 0, no line to update, return defaut pricelist price
+            return self.pricelist_id._get_product_price(
+                product=self.env['product.product'].browse(product_id),
+                quantity=1.0,
+                currency=self.currency_id,
+                date=self.date_order,
+                **kwargs,
+            )
+
         return sol._get_discounted_price()
 
     # === Product Documents === #
