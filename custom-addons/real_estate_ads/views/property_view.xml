@@ -36,9 +36,9 @@
                     <sheet>
                         <group>
                                 <field name="name"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
                             <group>
                                 <field name="type_id"/>
-                                <field name="tag_ids" widget="many2many_tags"/>
                                 <field name="postcode"/>
                                 <field name="date_availability"/>
                             </group>
@@ -48,6 +48,38 @@
                                 <field name="selling_price"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="description"/>
+                                    <field name="bedrooms"/>
+                                    <field name="living_area"/>
+                                    <field name="facades"/> <field name="garage"/>
+                                    <field name="garden"/>
+                                    <field name="garden_area"/>
+                                    <field name="garden_orientation"/>
+                                    <field name="total_area"/>
+                                </group>
+                            </page>
+                            <page string="Offers">
+                                <field name="offer_ids">
+                                    <list editable="bottom">
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="creation_date"/>
+                                        <field name="validity"/>
+                                        <field name="deadline"/>
+                                        <field name="status" nolabel="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <field name="sales_id"/>
+                                    <field name="buyer_id"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

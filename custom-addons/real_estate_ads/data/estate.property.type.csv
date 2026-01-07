@@ -1,0 +1,5 @@
+id,name
+type_apartment,Apartment
+type_house,House
+type_villa,Villa
+type_office,Office

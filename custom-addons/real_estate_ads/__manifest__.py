@@ -7,6 +7,13 @@
         "views/property_type_view.xml",
         "views/property_tag_view.xml",
         "views/menu_items.xml",
+        #data
+        "data/estate_property_type_data.xml",
+        "data/estate.property.type.csv",
+    ],
+    'demo': [
+        'demo/estate.property.tag.csv',
+        'demo/estate_property_demo.xml',
     ],
     "depends":['base'],
     "installable":True,

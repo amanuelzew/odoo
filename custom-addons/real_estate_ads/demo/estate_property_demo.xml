@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="demo_property_2" model="estate.property">
+            <field name="name">Modern Penthouse</field>
+            <field name="expected_price">850000</field>
+            <field name="living_area">180</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_modern'), ref('tag_pool')])]"/>
+        </record>
+    </data>
+</odoo>

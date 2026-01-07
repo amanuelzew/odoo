@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="type_penthouse" model="estate.property.type">
+            <field name="name">Penthouse</field>
+        </record>
+
+        <record id="type_studio" model="estate.property.type">
+            <field name="name">Studio</field>
+        </record>
+    </data>
+</odoo>
