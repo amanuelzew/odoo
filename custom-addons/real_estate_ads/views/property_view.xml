@@ -38,6 +38,7 @@
                                 <field name="name"/>
                             <group>
                                 <field name="type_id"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
                                 <field name="postcode"/>
                                 <field name="date_availability"/>
                             </group>

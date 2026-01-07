@@ -12,9 +12,18 @@
               name="Property" 
               parent="menu_property_ads_category" 
               action="action_property"/>
-
+    
     <menuitem id="menu_property_ads_settings_action" 
+              name="Settings" 
+              parent="menu_root_property_ads" />
+
+    <menuitem id="menu_property_types_settings_action" 
               name="Property Types" 
-              parent="menu_root_property_ads" 
+              parent="menu_property_ads_settings_action" 
               action="action_property_type"/>
+
+    <menuitem id="menu_property_tag_settings_action" 
+              name="Property Tag" 
+              parent="menu_property_ads_settings_action" 
+              action="action_property_tag"/>
 </odoo>
