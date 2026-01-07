@@ -19,6 +19,7 @@
             <field name="arch" type="xml">
                 <list>
                     <field name="name"/>
+                    <field name="type_id"/>
                     <field name="postcode"/>
                     <field name="expected_price"/>
                     <field name="selling_price"/>
@@ -36,6 +37,7 @@
                         <group>
                                 <field name="name"/>
                             <group>
+                                <field name="type_id"/>
                                 <field name="postcode"/>
                                 <field name="date_availability"/>
                             </group>
