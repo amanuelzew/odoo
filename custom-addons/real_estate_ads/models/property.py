@@ -12,8 +12,8 @@ class Property(models.Model):
     postcode=fields.Char(string="PostCode")
     date_availability=fields.Date(string="Available From")
     expected_price=fields.Float(string="Expected price")
-    best_offer=fields.Float(string="Best offer")
-    selling_price=fields.Float(string="Selling Price")
+    best_offer=fields.Float(string="Best offer",compute="_compute_best_price")
+    selling_price=fields.Float(string="Selling Price",readonly=True)
     bedrooms=fields.Integer(string="BedRooms")
     living_area=fields.Integer(string="Living Area(sqm)")
     facades=fields.Integer(string="Facades")
@@ -60,7 +60,15 @@ class Property(models.Model):
               "view_mode":"list,form",
               "res_model": "estate.property.offer",
          }
-
+    @api.depends("offer_ids")
+    def _compute_best_price(self):
+         for rec in self:
+              if rec.offer_ids:
+                   rec.best_offer=max(rec.offer_ids.mapped("price"))
+              else:
+                   rec.best_offer=0
+                   
+         
 
 
 class PropertyType(models.Model):
@@ -74,3 +82,4 @@ class PropertyTag(models.Model):
     _description="Real Estate Property Tag"
 
     name=fields.Char(string="Name",required=True)
+    color=fields.Integer(string="Color")

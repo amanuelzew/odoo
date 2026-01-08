@@ -44,4 +44,25 @@ class PropertyOffer(models.Model):
         for rec in self :
             if rec.validity<=0:
                 raise ValidationError("The validity of an offer must be a positive number (at least 1 day).")
+            
+    def action_accept_offer(self):
+         self._validate_accepted_offer()
+         if self.property_id:
+              self.property_id.selling_price=self.price
+              self.property_id.state="offer_accepted"
+         self.status="accepted"
+    
+    def action_decline_offer(self):
+         if all(self.property_id.offer_ids.mapped("status")):
+              self.property_id.selling_price=0
+              self.property_id.state="cancelled"
+         self.status="refused"
+    
+    def _validate_accepted_offer(self):
+         offer_ids=self.env["estate.property.offer"].search([
+              ("property_id","=",self.property_id.id),
+              ("status","=","accepted")
+         ])
+         if offer_ids:
+              raise ValidationError("You have an accepted offer already")
 
