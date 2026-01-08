@@ -6,6 +6,9 @@ class Property(models.Model):
 
     name=fields.Char(string="Name")
     description=fields.Text(string="Description")
+    state = fields.Selection([ 
+         ("new", "New"), ("offer_received", "Offer Received"), ("offer_accepted", "Offer Accepted"), 
+         ("sold", "Sold"), ("cancelled", "Cancelled"), ], string="Status", default="new")
     postcode=fields.Char(string="PostCode")
     date_availability=fields.Date(string="Available From")
     expected_price=fields.Float(string="Expected price")
@@ -20,6 +23,7 @@ class Property(models.Model):
     garden_orientation=fields.Selection([
         ("north", "North"), ("south", "South"), ("east", "East"), ("west", "West"),
     ],string="Garden Orientation")
+    offer_count=fields.Integer(string="Offers",compute="_compute_offer_count")
     type_id=fields.Many2one("estate.property.type",string="Property Type")
     tag_ids=fields.Many2many("estate.property.tag",string="Property Tag")
     offer_ids=fields.One2many("estate.property.offer","property_id",string="offers")
@@ -37,6 +41,25 @@ class Property(models.Model):
     @api.onchange("living_area","garden_area")
     def _onchange_total_area(self):
             self.total_area=self.living_area + self.garden_area
+
+    @api.depends("offer_ids")
+    def _compute_offer_count(self):
+         for rec in self:
+              rec.offer_count=len(rec.offer_ids)
+    
+    def action_sold(self):
+        self.state="offer_accepted"
+    def action_cancel(self):
+        self.state="cancelled"
+    
+    def action_property_view_offers(self):
+         return{
+              "type":"ir.actions.act_window",
+              "name":f"{self.name} - offers",
+              "domain":[("property_id","=",self.id)],
+              "view_mode":"list,form",
+              "res_model": "estate.property.offer",
+         }
 
 
 

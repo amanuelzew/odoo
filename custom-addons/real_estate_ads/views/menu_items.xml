@@ -26,4 +26,9 @@
               name="Property Tag" 
               parent="menu_property_ads_settings_action" 
               action="action_property_tag"/>
+
+    <menuitem id="menu_property_offer_settings_action" 
+              name="Offers" 
+              parent="menu_property_ads_settings_action" 
+              action="action_property_offer"/>
 </odoo>

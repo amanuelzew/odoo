@@ -33,11 +33,22 @@
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="action_sold" type="object" string="Sold" class="btn btn-primary"/>
+                        <button name="action_cancel" type="object" string="Cancel" class="btn btn-danger"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
-                        <group>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_property_view_offers" icon="fa-money">
+                              <field name="offer_count" string="Offers" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group role="main">
                                 <field name="name"/>
                                 <field name="tag_ids" widget="many2many_tags"/>
                             <group>
+                                <field name="state"/>
                                 <field name="type_id"/>
                                 <field name="postcode"/>
                                 <field name="date_availability"/>

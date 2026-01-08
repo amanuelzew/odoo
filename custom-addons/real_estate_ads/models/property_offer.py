@@ -4,7 +4,16 @@ from odoo.exceptions import ValidationError
 class PropertyOffer(models.Model):
     _name="estate.property.offer"
     _description="Real Estate Property Offer"
+    
+    @api.depends("property_id")
+    def _computed_name(self):
+         for rec in self:
+              if rec.partner_id and rec.property_id:
+                   rec.name=f"{rec.property_id.name} - {rec.partner_id._name}"
+              else:
+                   rec.name=False
 
+    name=fields.Char(string="Name")
     price=fields.Float(string="price")
     status = fields.Selection([
         ('accepted', 'Accepted'),
@@ -33,6 +42,6 @@ class PropertyOffer(models.Model):
     @api.constrains("validity")
     def _constrains_validity(self):
         for rec in self :
-         if rec.validity<=0:
-          raise ValidationError("The validity of an offer must be a positive number (at least 1 day).")
+            if rec.validity<=0:
+                raise ValidationError("The validity of an offer must be a positive number (at least 1 day).")
 
