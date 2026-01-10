@@ -1,0 +1,17 @@
+/* Target the form view container in desktop mode */
+@media (min-width: 992px) {
+    .o_form_renderer.o_form_saved {
+        display: flex;
+        flex-direction: row-reverse; /* Reverses sheet and chatter */
+        
+        .o_form_sheet_bg {
+            flex: 1 1 auto;
+        }
+
+        .o_chatter {
+            flex: 0 0 400px; /* Fixed width for the chatter on the left */
+            border-right: 1px solid #dee2e6;
+            border-left: none;
+        }
+    }
+}
