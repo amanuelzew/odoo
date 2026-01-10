@@ -4,7 +4,7 @@
         <record id="action_property" model="ir.actions.act_window">
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">kanban,list,form,pivot,graph,calendar</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a property to Advertise
@@ -27,6 +27,141 @@
             </field>
         </record>
 
+        <!-- Search View for Property -->
+        <record id="estate_property_search_view" model="ir.ui.view">
+            <field name="name">estate.property.search</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Title"/>
+                    <field name="postcode"/>
+                    <field name="expected_price"/>
+                    <field name="buyer_id"/>
+
+                    <filter string="Available" name="available" domain="[('state', 'in', ('new', 'offer_received'))]"/>
+                    <filter string="Sold" name="sold" domain="[('state', '=', 'sold')]"/>
+
+                    <separator/>
+
+                    
+                    <filter string="Postcode" name="group_postcode" context="{'group_by': 'postcode'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'state'}"/>
+                    <searchpanel>
+                        <field name="state" string="Status" icon="fa-filter" select="multi"/>
+                        <field name="type_id" string="Property Type" icon="fa-home"/>
+                    </searchpanel>
+                </search>
+
+                
+            </field>
+        </record>
+
+        <!-- Kanban (Card) View for Property -->
+        <record id="estate_property_kanban_view" model="ir.ui.view">
+            <field name="name">estate.property.kanban</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" records_draggable="false">
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="expected_price"/>
+                    <field name="offer_count"/> 
+                    <field name="tag_ids"/>
+                    
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_card_content">
+                                    <div>
+                                        <span>Expected Price: </span>
+                                        <field name="expected_price"/>
+                                    </div>
+                                    <div t-if="record.offer_count.raw_value > 0">
+                                        <span>Best Offer: </span>
+                                        <field name="best_offer"/>
+                                    </div>
+                                </div>
+
+                                <div class="o_kanban_record_bottom mt-2">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span class="badge rounded-pill text-bg-info">
+                                            <t t-esc="record.offer_count.value"/> Offers
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- pivot View for Property -->
+        <record id="estate_property_pivot_view" model="ir.ui.view">
+            <field name="name">estate.property.pivot</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <pivot string="Property Analysis" sample="1">
+                    <field name="state" type="row"/>
+                    <field name="type_id" type="row"/>
+
+                    <field name="date_availability" interval="month" type="col"/>
+
+                    <field name="expected_price" type="measure"/>
+                    <field name="selling_price" type="measure"/>
+                    <field name="bedrooms" type="measure"/>
+                    
+                    <field name="living_area" string="Total Living Area" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- graph View for Property -->
+        <record id="estate_property_graph_view" model="ir.ui.view">
+            <field name="name">estate.property.graph</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <graph string="Property Analysis" type="bar" stacked="1" sample="1">
+                    <field name="state"/>
+                    <field name="type_id"/>
+
+                    <field name="selling_price" type="measure"/>
+                    <field name="expected_price" type="measure"/>
+                    <field name="living_area" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- calendar View for Property -->
+        <record id="estate_property_calendar_view" model="ir.ui.view">
+            <field name="name">estate.property.calendar</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date_availability" 
+                        string="Properties" 
+                        mode="month" 
+                        color="type_id"
+                        quick_create="false"
+                        event_open_popup="true">
+                    
+                    <field name="name"/>
+                    <field name="date_availability"/>
+                    <field name="postcode"/>
+                    <field name="state" filters="1"/>
+                    <field name="expected_price"/>
+                </calendar>
+            </field>
+        </record>
+
         <!-- Form View for Property -->
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
@@ -40,7 +175,7 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button type="object" name="action_property_view_offers" class="oe_stat_button" icon="fa-handshake">
+                            <button type="object" name="action_property_view_offers" class="oe_stat_button" icon="fa-money">
                               <field name="offer_count" string="Offers" widget="statinfo"/>
                             </button>
                         </div>
@@ -67,8 +202,8 @@
                                     <field name="living_area"/>
                                     <field name="facades"/> <field name="garage"/>
                                     <field name="garden"/>
-                                    <field name="garden_area" invisble="garden == False"/>
-                                    <field name="garden_orientation" invisble="garden == False"/>
+                                    <field name="garden_area" invisible="not garden"/>
+                                    <field name="garden_orientation" invisible="not garden"/>
                                     <field name="total_area"/>
                                 </group>
                             </page>
