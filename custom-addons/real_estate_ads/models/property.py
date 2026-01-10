@@ -52,7 +52,35 @@ class Property(models.Model):
               rec.offer_count=len(rec.offer_ids)
     
     def action_sold(self):
-        self.state="offer_accepted"
+     self.state = "sold"
+     # Use the full XML ID: module_name.record_id
+     template = self.env.ref('real_estate_ads.email_template_property_sold', raise_if_not_found=False)
+
+     if not template:
+        print("DEBUG: Template NOT FOUND. Check the ID in your XML.")
+        return True
+
+     for rec in self:
+        print(f"DEBUG: Attempting to send for Property ID {rec.id}")
+        
+        if not rec.buyer_id.email:
+            print(f"DEBUG: No email found for Buyer: {rec.buyer_id.name}")
+            continue
+
+        try:
+            # force_send=True is critical to see immediate results
+            # We pass email_values to ensure there's no 'From' address conflict
+            template.send_mail(
+                rec.id, 
+                force_send=True, 
+                raise_exception=True, # This will force Odoo to show you the error
+                email_values={'email_from': 'amanzewdut@gmail.com'}
+            )
+            print("DEBUG: send_mail finished without crashing.")
+        except Exception as e:
+            print(f"DEBUG: ERROR WHILE SENDING: {str(e)}")
+    
+     return True
     def action_cancel(self):
         self.state="cancelled"
     #smart button

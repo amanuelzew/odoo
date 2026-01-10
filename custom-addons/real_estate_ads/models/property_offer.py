@@ -50,12 +50,14 @@ class PropertyOffer(models.Model):
          if self.property_id:
               self.property_id.selling_price=self.price
               self.property_id.state="offer_accepted"
+              self.property_id.buyer_id=self.partner_id
          self.status="accepted"
     
     def action_decline_offer(self):
          if all(self.property_id.offer_ids.mapped("status")):
               self.property_id.selling_price=0
               self.property_id.state="cancelled"
+              self.property_id.buyer_id=False
          self.status="refused"
     
     def _validate_accepted_offer(self):

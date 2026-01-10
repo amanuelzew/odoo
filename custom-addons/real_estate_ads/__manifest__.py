@@ -11,6 +11,7 @@
         #data
         "data/estate_property_type_data.xml",
         "data/estate.property.type.csv",
+        "data/mail_template_data.xml",
         #report
         "report/property_report.xml",
         "report/report_template.xml",
