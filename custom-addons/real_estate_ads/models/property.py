@@ -1,3 +1,6 @@
+import io
+import xlwt
+import base64
 from odoo import fields,models,api
 
 class Property(models.Model):
@@ -51,7 +54,7 @@ class Property(models.Model):
         self.state="offer_accepted"
     def action_cancel(self):
         self.state="cancelled"
-    
+    #smart button
     def action_property_view_offers(self):
          return{
               "type":"ir.actions.act_window",
@@ -60,7 +63,7 @@ class Property(models.Model):
               "view_mode":"list,form",
               "res_model": "estate.property.offer",
           }
-     
+      #custom client action 
     def action_client_action(self):
           return {
                "type": "ir.actions.client",
@@ -73,7 +76,7 @@ class Property(models.Model):
                     #'next': {'type': 'ir.actions.client', 'tag': 'reload'}, # Optional: reload
                }
           }
-    
+    #url actions
     def action_url_action(self):
           return {
                "type": "ir.actions.act_url",
@@ -87,8 +90,59 @@ class Property(models.Model):
                    rec.best_offer=max(rec.offer_ids.mapped("price"))
               else:
                    rec.best_offer=0
-                   
-         
+     #import export logic              
+    def action_import_offers(self):
+        """ Opens the import wizard for this property """
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'import',
+            'params': {
+                'model': 'estate.property.offer',
+                'context': {
+                    'default_property_id': self.id,
+                },
+            }
+        }
+
+    def action_download_offer_template(self):
+        """ Generates Excel Template specifically for this property """
+        self.ensure_one()
+        output = io.BytesIO()
+        workbook = xlwt.Workbook()
+        sheet = workbook.add_sheet('Offers Template')
+        
+        # Headers matching your model fields
+        # Note: 'property_id/id' allows importing via External ID
+        headers = ['property_id/id', 'partner_id/id', 'price', 'validity', 'status']
+        for col, header in enumerate(headers):
+            sheet.write(0, col, header)
+        
+        # Row 1: Sample Data
+        # Get the external ID of the current property
+        prop_ext_id = self.get_external_id().get(self.id) or f"__export__.estate_property_{self.id}"
+        
+        sheet.write(1, 0, prop_ext_id)
+        sheet.write(1, 1, 'base.res_partner_1') # Sample External ID for a partner
+        sheet.write(1, 2, self.expected_price)
+        sheet.write(1, 3, 7) # Default 7 days validity
+        sheet.write(1, 4, 'accepted') # Status options: accepted, refused
+        
+        workbook.save(output)
+        
+        attachment = self.env['ir.attachment'].create({
+            'name': f'Template_Offers_{self.name}.xls',
+            'type': 'binary',
+            'datas': base64.b64encode(output.getvalue()),
+            'res_model': 'estate.property',
+            'res_id': self.id,
+        })
+        
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'new',
+        }  
 
 
 class PropertyType(models.Model):

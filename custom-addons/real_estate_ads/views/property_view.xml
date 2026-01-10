@@ -236,6 +236,18 @@
                                 </group>
                             </page>
                             <page string="Offers">
+                            <div class="mb-2">
+        <button name="action_download_offer_template" 
+                string="Download Template" 
+                type="object" 
+                class="btn-secondary" 
+                icon="fa-download"/>
+        <button name="action_import_offers" 
+                string="Import Bulk Offers" 
+                type="object" 
+                class="btn-primary" 
+                icon="fa-upload"/>
+    </div>
                                 <field name="offer_ids">
                                     <list editable="bottom" decoration-success="status == 'accepted'" decoration-danger="status == 'refused'">
                                         <field name="price"/>

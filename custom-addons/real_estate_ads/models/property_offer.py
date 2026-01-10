@@ -13,7 +13,7 @@ class PropertyOffer(models.Model):
               else:
                    rec.name=False
 
-    name=fields.Char(string="Name")
+    name=fields.Char(string="Name",compute=_computed_name)
     price=fields.Float(string="price")
     status = fields.Selection([
         ('accepted', 'Accepted'),
@@ -65,7 +65,7 @@ class PropertyOffer(models.Model):
          ])
          if offer_ids:
               raise ValidationError("You have an accepted offer already")
-
+     #server action    
     def extend_offer_deadline(self):
          for record in self:
              record.validity += 10
@@ -81,7 +81,7 @@ class PropertyOffer(models.Model):
                }
           } """
 
-
+    #cron action
     def _cron_extend_deadline(self):
           # 1. Find all offers that are still 'pending' or 'received'
           # We don't want to extend deadlines for sold or cancelled properties
