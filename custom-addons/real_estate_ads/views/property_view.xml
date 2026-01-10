@@ -199,6 +199,13 @@
                                     <span class="o_stat_text">Notification</span>
                                 </div>
                             </button>
+                            <button type="object" name="action_url_action" class="oe_stat_button" icon="fa-globe"
+                                    invisible="not postcode">
+                                <div class="o_stat_info">
+                                    <field name="postcode" class="o_stat_value" readonly="1"/>
+                                    <span class="o_stat_text">Search Web</span>
+                                </div>
+                            </button>
                         </div>
                         <group role="main">
                                 <field name="name"/>

@@ -70,8 +70,15 @@ class Property(models.Model):
                     "message": "The notification has been sent to the client.",
                     "type": "success",  # Options: 'success', 'warning', 'danger', 'info'
                     "sticky": False,    # False means it disappears after a few seconds
-                    'next': {'type': 'ir.actions.client', 'tag': 'reload'}, # Optional: reload
+                    #'next': {'type': 'ir.actions.client', 'tag': 'reload'}, # Optional: reload
                }
+          }
+    
+    def action_url_action(self):
+          return {
+               "type": "ir.actions.act_url",
+               "url": "https://www.google.com/search?q=property+in+{}".format(self.postcode or "London"),
+               "target": "new"#self
           }
     @api.depends("offer_ids")
     def _compute_best_price(self):
