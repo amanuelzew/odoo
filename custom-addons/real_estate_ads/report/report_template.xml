@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_property_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="property">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row border-bottom mb-4 pb-3">
+                    <div class="col-7">
+                        <h2 class="text-primary" style="font-weight: bold;"><t t-esc="property.name"/></h2>
+                        <p class="text-muted"><i class="fa fa-map-marker"/> <t t-esc="property.postcode"/></p>
+                        <h3 class="text-success">
+                            <span t-field="property.expected_price" 
+                                t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
+                        </h3>
+                    </div>
+
+                    <div class="col-5 text-end">
+                        <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', 'Property:' + property.name, 120, 120)" 
+                            style="width:100px; height:100px; border: 1px solid #ccc; padding: 5px;" 
+                            alt="Property QR Code"/>
+                        <p class="text-muted" style="font-size: 10px; margin-top: 5px;">Scan for digital record</p>
+                    </div>
+                </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Salesperson:</strong> <span t-field="property.sales_id"/><br/>
+                                <strong>Property Type:</strong> <span t-field="property.type_id"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Bedrooms:</strong> <span t-field="property.bedrooms"/><br/>
+                                <strong>Living Area:</strong> <span t-field="property.living_area"/> m²
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 border-bottom pb-2">Offers Received</h4>
+                        <table class="table table-striped mt-2">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Partner</th>
+                                    <th>Price</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="property.offer_ids" t-as="offer">
+                                    <tr>
+                                        <td><span t-field="offer.partner_id"/></td>
+                                        <td><span t-field="offer.price" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/></td>
+                                        <td class="text-center">
+                                            <span t-if="offer.status == 'accepted'" class="badge bg-success">Accepted</span>
+                                            <span t-if="offer.status == 'refused'" class="badge bg-danger">Refused</span>
+                                            <span t-if="not offer.status" class="badge bg-secondary">Pending</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4">
+                            <strong>Property Description:</strong>
+                            <p t-field="property.description"/>
+                        </div>
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
