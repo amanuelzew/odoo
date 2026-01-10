@@ -11,6 +11,8 @@
                 </p>
             </field>
         </record>
+
+        <!-- custome client action -->
         <record id="action_my_custom_page" model="ir.actions.client">
             <field name="name">My Custom Dashboard</field>
             <field name="tag">my_custom_tag</field>

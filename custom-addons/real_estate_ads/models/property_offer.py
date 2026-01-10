@@ -66,3 +66,29 @@ class PropertyOffer(models.Model):
          if offer_ids:
               raise ValidationError("You have an accepted offer already")
 
+    def extend_offer_deadline(self):
+         for record in self:
+             record.validity += 10
+          
+         """ return {
+               "type": "ir.actions.client",
+               "tag": "display_notification",
+               "params": {
+                    "title": "Success",
+                    "message": "Deadlines extended by 10 days.",
+                    "type": "success",
+                    "sticky": False,
+               }
+          } """
+
+
+    def _cron_extend_deadline(self):
+          # 1. Find all offers that are still 'pending' or 'received'
+          # We don't want to extend deadlines for sold or cancelled properties
+          offers = self.search([
+               ('validity', '>', 0)
+          ])
+          
+          # 2. Call your existing logic on those found records
+          for offer in offers:
+               offer.validity += 1

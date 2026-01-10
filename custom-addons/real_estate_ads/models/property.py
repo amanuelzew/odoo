@@ -70,7 +70,7 @@ class Property(models.Model):
                     "message": "The notification has been sent to the client.",
                     "type": "success",  # Options: 'success', 'warning', 'danger', 'info'
                     "sticky": False,    # False means it disappears after a few seconds
-                    "next": {"type": "ir.actions.act_window_close"}, # Optional: closes dialog if in a popup
+                    'next': {'type': 'ir.actions.client', 'tag': 'reload'}, # Optional: reload
                }
           }
     @api.depends("offer_ids")
