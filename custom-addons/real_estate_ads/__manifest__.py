@@ -16,6 +16,12 @@
         'demo/estate.property.tag.csv',
         'demo/estate_property_demo.xml',
     ],
+    'assets': {
+    'web.assets_backend': [
+        'real_estate_ads/static/src/js/my_custom_action.js',
+        'real_estate_ads/static/src/xml/my_custom_action.xml',
+    ],
+    },
     "depends":['base'],
     "installable":True,
     'application': True,

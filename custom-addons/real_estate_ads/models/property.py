@@ -59,7 +59,20 @@ class Property(models.Model):
               "domain":[("property_id","=",self.id)],
               "view_mode":"list,form",
               "res_model": "estate.property.offer",
-         }
+          }
+     
+    def action_client_action(self):
+          return {
+               "type": "ir.actions.client",
+               "tag": "display_notification",#apps,reload
+               "params": {
+                    "title": "Success!",
+                    "message": "The notification has been sent to the client.",
+                    "type": "success",  # Options: 'success', 'warning', 'danger', 'info'
+                    "sticky": False,    # False means it disappears after a few seconds
+                    "next": {"type": "ir.actions.act_window_close"}, # Optional: closes dialog if in a popup
+               }
+          }
     @api.depends("offer_ids")
     def _compute_best_price(self):
          for rec in self:

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="real_estate_ads.MyCustomActionTemplate">
+        <div class="p-4 bg-light shadow-sm rounded">
+            <h1>Custom Interface</h1>
+            <p t-esc="message"/>
+            <button class="btn btn-primary" t-on-click="onButtonClick">
+                Click Me
+            </button>
+        </div>
+    </t>
+</templates>

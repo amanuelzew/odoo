@@ -31,4 +31,8 @@
               name="Offers" 
               parent="menu_property_ads_settings_action" 
               action="action_property_offer"/>
+    <menuitem id="menu_custom_page"
+              name="My Page" 
+              parent="menu_property_ads_settings_action"
+              action="action_my_custom_page"/>
 </odoo>

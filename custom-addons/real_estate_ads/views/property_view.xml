@@ -11,18 +11,31 @@
                 </p>
             </field>
         </record>
+        <record id="action_my_custom_page" model="ir.actions.client">
+            <field name="name">My Custom Dashboard</field>
+            <field name="tag">my_custom_tag</field>
+        </record>
 
         <!-- Tree (List) View for Property -->
         <record id="estate_property_tree_view" model="ir.ui.view">
             <field name="name">estate.property.tree</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
-                <list>
+                <list string="Properties" sample="1">
                     <field name="name"/>
                     <field name="type_id"/>
-                    <field name="postcode"/>
-                    <field name="expected_price"/>
-                    <field name="selling_price"/>
+                    
+                    <field name="postcode" optional="show"/>
+                    <field name="expected_price" optional="show"/>
+                    
+                    <field name="selling_price" optional="hide"/>
+                    <field name="bedrooms" optional="hide"/>
+                    <field name="living_area" optional="hide"/>
+                    <field name="facades" optional="hide"/>
+                    
+                    <field name="state" widget="badge" 
+                        decoration-success="state == 'sold'" 
+                        decoration-info="state == 'offer_received'"/>
                 </list>
             </field>
         </record>
@@ -177,6 +190,12 @@
                         <div class="oe_button_box" name="button_box">
                             <button type="object" name="action_property_view_offers" class="oe_stat_button" icon="fa-money">
                               <field name="offer_count" string="Offers" widget="statinfo"/>
+                            </button>
+                            <button type="object" name="action_client_action" class="oe_stat_button" icon="fa-bell">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Send</span>
+                                    <span class="o_stat_text">Notification</span>
+                                </div>
                             </button>
                         </div>
                         <group role="main">
